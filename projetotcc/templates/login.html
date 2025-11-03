@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TalentMatch!</title>
+    
+    <!-- CSS Estático -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+    <!-- Scripts e Fontes Externas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .form-input {
+            border-color: #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            border-color: #2E5BFF;
+            box-shadow: 0 0 0 2px rgba(46, 91, 255, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <!-- Cabeçalho Fixo -->
+    <header class="w-full bg-primary-blue shadow-md z-10">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+             <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-code"><path d="M15.5 15.5 19 19"/><path d="m2 11 4 4-4 4"/><path d="m12 2 4 4-4 4"/><circle cx="11" cy="11" r="8"/></svg>
+                <span class="text-2xl font-bold text-white">TalentMatch!</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Botão Cadastrar (exemplo: cadastro de usuário) -->
+                <a href="{% url 'cadastro' %}" class="text-white font-semibold py-2 px-5 rounded-lg text-sm border border-white hover:bg-white hover:text-primary-blue transition-colors">
+                    Cadastrar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 flex items-stretch">
+        <!-- Lado Esquerdo - Imagem -->
+        <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNjAzNTV8MHwxfGFsbHx8fHx8fHx8fDE3MDAwNjIwNDZ8&ixlib=rb-4.0.3&q=80&w=1080');">
+        </div>
+
+        <!-- Lado Direito - Formulário de Login -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-32 bg-white">
+            <div class="max-w-md w-full space-y-8 text-center">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-user-search"><circle cx="10" cy="10" r="7"/><path d="M10.3 10.3 15 15"/><path d="M7.3 13H13"/><circle cx="10" cy="10" r="3"/><path d="M10 16.5A7.5 7.5 0 0 0 17.5 9"/></svg>
+                    <h2 class="mt-4 text-3xl font-bold text-gray-900">TalentMatch!</h2>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Acesse suas <span class="text-primary-blue font-semibold">oportunidades</span>
+                    </p>
+                </div>
+                <form class="mt-8 space-y-6 text-left" action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="rounded-lg -space-y-px">
+                        <div>
+                            <label for="email-address" class="block text-sm font-medium text-gray-700 mb-1">Email ou nome de usuário</label>
+                            <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input" placeholder="seuemail@exemplo.com">
+                        </div>
+                        <div class="pt-4">
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input" placeholder="********">
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-center">
+                        <span class="text-gray-600">Não tem uma conta?</span>
+                        <a href="{% url 'cadastro' %}" class="font-medium text-primary-blue hover:text-blue-500">Cadastre-se</a>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-bold rounded-lg text-white bg-primary-blue hover:bg-primary-dark-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue transition-colors">
+                            Entrar
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Divisor -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Ou entre com</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div>
+                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 48 48"> 
+                                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                                <path fill="none" d="M0 0h48v48H0z"></path>
+                            </svg>
+                            Entrar com Google
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 items-center gap-2">
+                            <svg class="w-5 h-5" fill="#0078D4" viewBox="0 0 21 21"><title>MS-SymbolLockup</title><path d="M10.5 0v10.5H0V0h10.5zm0 10.5v10.5H0V10.5h10.5zM21 0v10.5H10.5V0H21zm0 10.5v10.5H10.5V10.5H21z"></path></svg>
+                            Entrar com Microsoft
+                        </a>
+                    </div>
+                </div>
+
+                <p class="mt-8 text-center text-sm text-gray-600">
+                    <a href="#" class="font-medium text-primary-blue hover:text-blue-500">
+                        Esqueceu a sua palavra-passe?
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

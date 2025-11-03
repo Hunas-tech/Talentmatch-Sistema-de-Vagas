@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mensagens{% endblock %}
+
+{% block page_title %}Mensagens{% endblock %}
+
+{% block content %}
+<main class="flex-1 flex overflow-hidden">
+    <!-- Lista de Conversas -->
+    <div class="w-full md:w-1/3 border-r bg-white overflow-y-auto">
+        <div class="p-4 border-b">
+            <input type="text" placeholder="Pesquisar conversas..." class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary-blue">
+        </div>
+        <!-- Conversa Ativa -->
+        <div class="p-4 flex items-center gap-4 bg-blue-50 border-r-4 border-primary-blue cursor-pointer">
+            <img src="https://placehold.co/48x48/9333ea/FFFFFF?text=CM" alt="Avatar" class="w-12 h-12 rounded-full">
+            <div class="flex-1 overflow-hidden">
+                <div class="flex justify-between">
+                    <h3 class="font-bold text-gray-800">Creative Minds</h3>
+                    <span class="text-xs text-gray-500 flex-shrink-0">10:08</span>
+                </div>
+                <p class="text-sm text-gray-600 truncate">Perfeito! Agendado então...</p>
+            </div>
+        </div>
+        <!-- Conversa com msg não lida -->
+        <div class="p-4 flex items-center gap-4 hover:bg-slate-50 cursor-pointer border-b">
+            <div class="relative">
+                <img src="https://placehold.co/48x48/f59e0b/FFFFFF?text=IT" alt="Avatar" class="w-12 h-12 rounded-full">
+                <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-primary-blue ring-2 ring-white"></span>
+            </div>
+            <div class="flex-1 overflow-hidden">
+                <div class="flex justify-between">
+                    <h3 class="font-bold text-gray-800">InovaTech</h3>
+                    <span class="text-xs text-primary-blue font-bold">10:15</span>
+                </div>
+                <p class="text-sm text-gray-800 font-semibold truncate">Temos uma nova proposta para si.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Área da Conversa Aberta -->
+    <div class="flex-1 flex-col hidden md:flex">
+        <div class="h-20 flex-shrink-0 bg-white border-b p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                    <img src="https://placehold.co/40x40/9333ea/FFFFFF?text=CM" alt="Avatar" class="w-10 h-10 rounded-full">
+                    <div>
+                    <h3 class="font-bold text-gray-800">Creative Minds</h3>
+                    <p class="text-xs text-gray-500">Respondendo sobre a vaga de Dev. Frontend</p>
+                    </div>
+            </div>
+            <button class="text-gray-500 hover:text-primary-blue"><i data-lucide="more-vertical" class="w-5 h-5"></i></button>
+        </div>
+
+        <div class="flex-1 p-6 space-y-6 overflow-y-auto">
+            <div class="flex items-start gap-3">
+                <img src="https://placehold.co/40x40/9333ea/FFFFFF?text=CM" alt="Avatar" class="w-10 h-10 rounded-full">
+                <div class="bg-slate-100 p-3 rounded-r-lg rounded-bl-lg max-w-md">
+                    <p class="text-sm text-gray-800">Olá, Ana! Adorámos o seu perfil...</p>
+                    <span class="text-xs text-gray-500 mt-1 block text-right">10:05</span>
+                </div>
+            </div>
+            <div class="flex items-start gap-3 justify-end">
+                <div class="bg-primary-blue text-white p-3 rounded-l-lg rounded-br-lg max-w-md">
+                    <p class="text-sm">Olá, tudo bem? Agradeço o contato!...</p>
+                    <span class="text-xs text-blue-200 mt-1 block text-right">10:08</span>
+                </div>
+                <img src="https://placehold.co/40x40/E2E8F0/475569?text=AS" alt="Avatar" class="w-10 h-10 rounded-full">
+            </div>
+        </div>
+
+        <div class="bg-white p-4 border-t flex-shrink-0">
+            <div class="relative">
+                <input type="text" placeholder="Digite a sua mensagem..." class="w-full px-4 py-3 pr-20 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary-blue">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4 gap-2">
+                    <button class="text-gray-500 hover:text-primary-blue"><i data-lucide="paperclip" class="w-5 h-5"></i></button>
+                    <button class="bg-primary-blue text-white p-2 rounded-lg hover:bg-primary-dark-blue"><i data-lucide="send" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meus Cursos{% endblock %}
+
+{% block page_title %}Meus Cursos{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="bg-white p-6 rounded-2xl subtle-shadow mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Bem-vinda de volta, Ana!</h2>
+        <p class="text-gray-500 mt-1">Continue de onde parou e acelere a sua carreira.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Meus Cursos em Andamento</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card Curso 1 -->
+                <div class="bg-white p-6 rounded-2xl subtle-shadow hover:shadow-lg transition-shadow flex flex-col">
+                    <div class="h-32 bg-slate-200 rounded-lg flex items-center justify-center mb-4">
+                        <h4 class="text-2xl font-bold text-gray-700">Curso React</h4>
+                    </div>
+                    <p class="text-sm font-medium text-blue-600">Alura</p>
+                    <h5 class="font-bold text-gray-800 mt-1">React: Desenvolvendo com JavaScript</h5>
+                    <div class="mt-4 flex-1">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-medium text-gray-600">Progresso</span>
+                            <span class="font-bold text-primary-blue">75%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2">
+                            <div class="bg-primary-blue h-2 rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <a href="{% url 'progre_cursos' %}" class="mt-6 w-full text-center bg-primary-blue text-white font-semibold py-2.5 rounded-lg hover:bg-primary-dark-blue transition-colors">Continuar Curso</a>
+                </div>
+
+                <!-- Card Curso 2 -->
+                <div class="bg-white p-6 rounded-2xl subtle-shadow hover:shadow-lg transition-shadow flex flex-col">
+                    <div class="h-32 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                            <h4 class="text-2xl font-bold text-blue-800">Curso UX/UI</h4>
+                    </div>
+                        <p class="text-sm font-medium text-blue-600">Coursera</p>
+                    <h5 class="font-bold text-gray-800 mt-1">Fundamentos de UX/UI Design</h5>
+                        <div class="mt-4 flex-1">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-medium text-gray-600">Progresso</span>
+                            <span class="font-bold text-primary-blue">30%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2">
+                            <div class="bg-primary-blue h-2 rounded-full" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <a href="{% url 'progre_cursos' %}" class="mt-6 w-full text-center bg-primary-blue text-white font-semibold py-2.5 rounded-lg hover:bg-primary-dark-blue transition-colors">Continuar Curso</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-8">
+            <div class="bg-white p-6 rounded-2xl subtle-shadow">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Estatísticas</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-primary-blue"></i>
+                            <span class="font-medium text-gray-700">Tempo de estudo</span>
+                        </div>
+                        <span class="font-bold text-gray-800">32 horas</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="award" class="w-5 h-5 text-green-600"></i>
+                            <span class="font-medium text-gray-700">Cursos concluídos</span>
+                        </div>
+                        <span class="font-bold text-gray-800">2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
