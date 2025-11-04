@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Candidatar-se à Vaga{% endblock %}
+
+{% block page_title %}Candidatar-se{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white p-8 rounded-2xl subtle-shadow">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800">Finalizar Candidatura</h2>
+                <p class="text-gray-500 mt-2">Você está a um passo de se candidatar para a vaga de:</p>
+                <p class="text-xl font-semibold text-primary-blue mt-1">Desenvolvedor Frontend Pleno</p>
+            </div>
+
+            <form action="#" method="POST" class="mt-8 space-y-6 border-t pt-8">
+                {% csrf_token %} <!-- Adicionado token CSRF para o formulário -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">Confirme seu currículo</h3>
+                    <p class="text-sm text-gray-500">Selecione o currículo que deseja enviar para esta vaga. Recomendamos mantê-lo sempre atualizado.</p>
+                    <div class="mt-4 bg-slate-50 p-4 rounded-lg flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="file-text" class="w-6 h-6 text-primary-blue"></i>
+                            <div>
+                                <p class="font-semibold text-gray-800">curriculo_ana_silva.pdf</p>
+                                <p class="text-xs text-gray-500">Atualizado em 18/10/2025</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-sm font-medium text-primary-blue hover:underline">Trocar arquivo</a>
+                    </div>
+                </div>
+
+                 <div>
+                    <h3 class="text-lg font-medium text-gray-900">Perguntas adicionais</h3>
+                     <div class="mt-4 space-y-4">
+                        <div>
+                             <label for="pretensao" class="block text-sm font-medium text-gray-700">Qual a sua pretensão salarial?</label>
+                             <input type="text" id="pretensao" class="mt-1 block w-full form-input">
+                        </div>
+                         <div>
+                             <label for="inicio" class="block text-sm font-medium text-gray-700">Quando você pode começar?</label>
+                             <input type="text" id="inicio" class="mt-1 block w-full form-input">
+                        </div>
+                     </div>
+                </div>
+
+                <div class="pt-6 border-t space-y-4">
+                    <button type="submit" class="w-full bg-primary-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-primary-dark-blue transition-colors text-lg">
+                        Confirmar e Enviar Candidatura
+                    </button>
+                    <!-- CORREÇÃO: Botão de cancelar volta para a lista de vagas -->
+                    <a href="{% url 'explorar_vagas' %}" class="block w-full text-center bg-transparent text-gray-600 font-semibold py-3 px-4 rounded-lg hover:bg-slate-100 transition-colors">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

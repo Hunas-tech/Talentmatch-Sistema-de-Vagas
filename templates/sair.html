@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sair | TalentMatch!</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-image: url('https://placehold.co/1920x1080/a0c4ff/ffffff?text=Background+Image&font=inter'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .bg-primary-blue { background-color: #2E5BFF; }
+        .text-primary-blue { color: #2E5BFF; }
+        .bg-primary-dark-blue { background-color: #1E40AF; }
+        
+        .card-translucent {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="w-full bg-primary-blue shadow-md z-10">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                    fill="none" stroke="#FFFFFF" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search-code">
+                    <path d="M15.5 15.5 19 19"/>
+                    <path d="m2 11 4 4-4 4"/>
+                    <path d="m12 2 4 4-4 4"/>
+                    <circle cx="11" cy="11" r="8"/>
+                </svg>
+                <span class="text-2xl font-bold text-white">TalentMatch!</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-1 flex items-center justify-center py-12 px-4">
+        <div class="card-translucent w-full max-w-md p-10 text-center">
+
+            <!-- Logo + Título -->
+            <svg width="48" height="48" fill="none" stroke="#2E5BFF" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+                class="mx-auto lucide lucide-user-search">
+                <circle cx="10" cy="10" r="7"/>
+                <path d="M10.3 10.3 15 15"/>
+                <path d="M7.3 13H13"/>
+                <circle cx="10" cy="10" r="3"/>
+                <path d="M10 16.5A7.5 7.5 0 0 0 17.5 9"/>
+            </svg>
+            <h2 class="mt-4 text-2xl font-bold text-gray-900">
+                TalentMatch!
+            </h2>
+            <p class="mt-1 text-sm text-gray-600">
+                Acesse as suas <span class="text-primary-blue font-semibold">oportunidades</span>
+            </p>
+
+            <!-- Título da Confirmação -->
+            <h3 class="text-4xl font-extrabold text-gray-800 mt-10 mb-8">
+                Deseja Sair?
+            </h3>
+
+            <!-- Botões -->
+            <div class="space-y-4">
+
+                <!-- Botão SIM (Logout) -->
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full bg-primary-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-primary-dark-blue transition-colors text-lg">
+                        Sim
+                    </button>
+                </form>
+
+                <!-- Botão NÃO (volta ao dashboard) -->
+                <!-- CORREÇÃO: Voltando para o dashboard do candidato, não para a home (landing) -->
+                <a href="{% url 'dashboard_candidato' %}">
+                    <button type="button"
+                        class="w-full bg-transparent border-2 border-primary-blue text-primary-blue font-bold py-3 px-4 rounded-lg hover:bg-blue-50 transition-colors text-lg">
+                        Não
+                    </button>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

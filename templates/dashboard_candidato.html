@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TalentMatch!{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-slate-50">
+    
+    <div class="flex h-screen bg-white">
+        <aside class="w-72 flex-shrink-0 border-r border-gray-200 flex flex-col">
+            
+            <div class="flex items-center gap-2 p-6">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-primary-blue">
+                    <path fill-rule="evenodd" d="M9.315 7.585C8.69 7.221 7.854 7.5 7.5 8.125V15.875c.354.625 1.19.905 1.815.541l6.75-3.9375a.69.69 0 0 0 0-1.188l-6.75-3.75Z" clip-rule="evenodd" />
+                    <path d="M.03 5.922a2.25 2.25 0 0 1 2.22-1.922h19.5a2.25 2.25 0 0 1 2.22 1.922l.024 11.928a2.25 2.25 0 0 1-2.22 2.148H2.25a2.25 2.25 0 0 1-2.22-2.148L.03 5.922Z" />
+                </svg>
+                <span class="text-xl font-bold text-gray-800 tracking-tight">TalentMatch!</span>
+            </div>
+
+            <nav class="flex-1 px-4 py-2 space-y-2">
+
+                <!-- Dashboard -->
+                <a href="{% url 'dashboard_candidato' %}" class="active-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25v2.25A2.25 2.25 0 0 1 8.25 21H6a2.25 2.25 0 0 1-2.25-2.25v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25v2.25A2.25 2.25 0 0 1 18 21h-2.25A2.25 2.25 0 0 1 13.5 18.25v-2.25Z" /></svg>
+                    <span>Dashboard</span>
+                </a>
+
+                <!-- Perfil -->
+                <a href="{% url 'perfil_candidato' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A1.875 1.875 0 0 1 17.625 22.5H6.375a1.875 1.875 0 0 1-1.875-2.382Z" /></svg>
+                    <span>Meu Perfil</span>
+                </a>
+
+                <!-- Vagas -->
+                <a href="{% url 'explorar_vagas' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                    <span>Explorar Vagas</span>
+                </a>
+
+                <!-- Candidaturas -->
+                <a href="{% url 'candidaturas_vagas' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.5 2.25h.375a.625.625 0 0 1 .625.625v1.875c0 .345-.28.625-.625.625H10.5v-2.5Z" /></svg>
+                    <span>Minhas Candidaturas</span>
+                </a>
+
+                <!-- Mensagens -->
+                <a href="{% url 'caixa_mensagens' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 5.25v13.5a.75.75 0 0 1-.75.75h-18a.75.75 0 0 1-.75-.75V5.25A.75.75 0 0 1 3 4.5h18a.75.75 0 0 1 .75.75ZM3.75 6.375l7.238 5.429a1.125 1.125 0 0 0 1.324 0L19.55 6.375" /></svg>
+                    <span>Mensagens</span>
+                </a>
+
+                <!-- Chat IA -->
+                <a href="{% url 'chat_ia' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M.75 4.5A.75.75 0 0 1 1.5 3.75h21a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-5.94l-3.372 3.372a.75.75 0 0 1-1.06 0L8.44 15.75H2.25a.75.75 0 0 1-.75-.75V4.5Z" /></svg>
+                    <span>Chat de IA</span>
+                </a>
+
+                <!-- Cursos -->
+                <a href="{% url 'cursos' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814" /></svg>
+                    <span>Cursos</span>
+                </a>
+
+                <!-- Configurações -->
+                <a href="{% url 'conf' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0M3.75 18H7.5m3-6h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0M3.75 12H7.5" /></svg>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+
+            <div class="mt-auto p-4">
+                <a href="{% url 'logout' %}" class="nav-link flex items-center gap-3 py-2.5 px-4 rounded-lg text-red-600 hover:bg-red-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3H6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 6 21h7.5a2.25 2.25 0 0 0 2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H21" /></svg>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-y-auto bg-slate-50">
+            <header class="bg-white p-6 border-b border-gray-200 sticky top-0 z-10">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        {% block page_title %}Dashboard{% endblock %}
+                    </h1>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <p class="font-semibold text-gray-800">Ana Silva</p>
+                            <p class="text-sm text-gray-500">Desenvolvedora Frontend</p>
+                        </div>
+                        <div class="w-11 h-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-lg">
+                            AS
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

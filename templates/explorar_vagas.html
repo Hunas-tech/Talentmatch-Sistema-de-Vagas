@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explorar Vagas{% endblock %}
+
+{% block page_title %}Explorar Vagas{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <!-- Barra de Busca e Filtros -->
+    <div class="bg-white p-4 rounded-2xl subtle-shadow mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+            <div class="md:col-span-2 relative">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                <input type="text" placeholder="Buscar por cargo, habilidade ou empresa..." class="w-full pl-10 pr-4 py-3 border-gray-200 rounded-lg focus:border-primary-blue focus:ring-primary-blue">
+            </div>
+            <div>
+                <div class="relative">
+                    <i data-lucide="map-pin" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                    <input type="text" placeholder="Localização" class="w-full pl-10 pr-4 py-3 border-gray-200 rounded-lg focus:border-primary-blue focus:ring-primary-blue">
+                </div>
+            </div>
+            <button class="w-full bg-primary-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-primary-dark-blue transition-colors">
+                Procurar Vagas
+            </button>
+        </div>
+    </div>
+
+    <!-- Listagem de Vagas -->
+    <div class="space-y-6">
+        <!-- Card de Vaga 1 -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow hover:shadow-lg transition-shadow border-2 border-transparent hover:border-primary-blue">
+            <div class="flex flex-col sm:flex-row gap-6">
+                <img src="https://placehold.co/64x64/2E5BFF/FFFFFF?text=TS" alt="Logo da Empresa" class="w-16 h-16 rounded-lg">
+                <div class="flex-1">
+                    <div class="flex flex-col sm:flex-row justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-primary-blue">TechSolutions</p>
+                            <h3 class="text-xl font-bold text-gray-800 mt-1">Desenvolvedor Frontend Pleno</h3>
+                            <div class="flex items-center gap-4 text-sm text-gray-500 mt-2 flex-wrap">
+                                <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4"></i>Remoto</span>
+                                <span class="flex items-center gap-1.5"><i data-lucide="briefcase" class="w-4 h-4"></i>CLT</span>
+                                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i>Publicada há 2 dias</span>
+                            </div>
+                        </div>
+                        <a href="#" class="mt-4 sm:mt-0 bg-primary-blue text-white font-semibold py-2 px-5 rounded-lg hover:bg-primary-dark-blue transition-colors text-sm whitespace-nowrap">
+                            Ver Detalhes
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mt-4 text-sm">Estamos a procurar um Desenvolvedor Frontend Pleno para se juntar à nossa equipa. Irá trabalhar em projetos inovadores utilizando as tecnologias mais recentes do mercado...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Vaga 2 -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow hover:shadow-lg transition-shadow border-2 border-transparent hover:border-primary-blue">
+             <div class="flex flex-col sm:flex-row gap-6">
+                <img src="https://placehold.co/64x64/9333ea/FFFFFF?text=CM" alt="Logo da Empresa" class="w-16 h-16 rounded-lg">
+                <div class="flex-1">
+                    <div class="flex flex-col sm:flex-row justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-purple-600">Creative Minds</p>
+                            <h3 class="text-xl font-bold text-gray-800 mt-1">Designer UX/UI Sénior</h3>
+                             <div class="flex items-center gap-4 text-sm text-gray-500 mt-2 flex-wrap">
+                                <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4"></i>São Paulo, SP (Híbrido)</span>
+                                <span class="flex items-center gap-1.5"><i data-lucide="briefcase" class="w-4 h-4"></i>PJ</span>
+                                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i>Publicada há 5 dias</span>
+                            </div>
+                        </div>
+                        <a href="#" class="mt-4 sm:mt-0 bg-primary-blue text-white font-semibold py-2 px-5 rounded-lg hover:bg-primary-dark-blue transition-colors text-sm whitespace-nowrap">
+                            Ver Detalhes
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mt-4 text-sm">Procuramos um Designer UX/UI Sénior para liderar a conceção de experiências de utilizador incríveis para os nossos produtos digitais, desde a pesquisa até à prototipagem...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mais cards aqui... -->
+
+    </div>
+
+    <!-- Paginação -->
+    <nav class="mt-8 flex items-center justify-center" aria-label="Paginação">
+        <div class="flex items-center gap-2">
+            <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 bg-white border rounded-lg hover:bg-slate-50">Anterior</a>
+            <a href="#" class="px-4 py-2 text-sm font-semibold text-white bg-primary-blue border border-primary-blue rounded-lg">1</a>
+            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600 bg-white border rounded-lg hover:bg-slate-50">2</a>
+            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-600 bg-white border rounded-lg hover:bg-slate-50">3</a>
+            <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 bg-white border rounded-lg hover:bg-slate-50">Próximo</a>
+        </div>
+    </nav>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // JS específico para a página de explorar vagas
+</script>
+{% endblock %}
+

@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TalentMatch{% endblock %}</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js (usado em dashboards) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md flex flex-col fixed h-full">
+        <div class="p-6 border-b">
+            <h1 class="text-2xl font-bold text-blue-600">
+                <a href="/">TalentMatch</a>
+            </h1>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="/dashboard/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+                <i data-lucide="home" class="w-5 h-5"></i> Dashboard
+            </a>
+            <a href="/perfil/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+                <i data-lucide="user" class="w-5 h-5"></i> Perfil
+            </a>
+            <a href="/cursos/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+                <i data-lucide="book" class="w-5 h-5"></i> Cursos
+            </a>
+            <a href="/vagas/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+                <i data-lucide="briefcase" class="w-5 h-5"></i> Vagas
+            </a>
+            <a href="/mensagens/" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+                <i data-lucide="message-circle" class="w-5 h-5"></i> Mensagens
+            </a>
+        </nav>
+
+        <div class="border-t p-4">
+            <a href="/logout/" class="flex items-center gap-2 px-4 py-2 rounded-lg text-red-600 hover:bg-red-50 font-medium">
+                <i data-lucide="log-out" class="w-5 h-5"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <div class="flex-1 ml-64 flex flex-col">
+        <!-- Cabeçalho -->
+        <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-gray-800">{% block page_title %}{% endblock %}</h2>
+            <div class="flex items-center gap-3">
+                <span class="text-gray-600 text-sm">Bem-vindo(a)</span>
+                <img src="{% static 'images/default_user.png' %}" alt="user" class="w-8 h-8 rounded-full border">
+            </div>
+        </header>
+
+        <!-- Bloco de conteúdo -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

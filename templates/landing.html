@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentMatch! - Conecte Talentos com Oportunidades</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Cor primária personalizada baseada na imagem */
+        .bg-primary-blue {
+            background-color: #3B82F6; /* Ajustado para um azul padrão do Tailwind, similar ao da imagem */
+        }
+        .text-primary-blue {
+            color: #3B82F6;
+        }
+        .border-primary-blue {
+            border-color: #3B82F6;
+        }
+        
+        /* As classes com @apply foram removidas pois não funcionam com o CDN. 
+           Os estilos foram aplicados diretamente no HTML. */
+        
+        html {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- Cabeçalho -->
+    <header class="bg-white">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-3xl font-bold text-blue-600">TalentMatch!</h1>
+                </div>
+                <!-- Botões de Navegação -->
+                <div class="flex items-center gap-4">
+                    <a href="/cadastro" class="text-gray-600 font-medium hover:text-blue-600 transition-colors">
+                        Cadastrar
+                    </a>
+                    <!-- Classes .btn-primary aplicadas diretamente -->
+                    <a href="/login" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
+                        Entrar
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Seção Hero -->
+    <main class="py-16 md:py-24">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <span class="inline-flex items-center rounded-full bg-blue-50 px-4 py-1 text-xs font-semibold text-blue-600 border border-blue-200">
+                Powered by IA
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mt-6 leading-tight">
+                Conecte Talentos com <br> Oportunidades de Forma <span class="text-blue-600">Inteligente</span>
+            </h1>
+            <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                Nossa plataforma usa inteligência artificial para fazer o match perfeito entre candidatos qualificados e empresas locais, oferecendo orientação de carreira personalizada e trilhas de aprendizado.
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <!-- Classes .btn-secondary-lg aplicadas diretamente -->
+               <a href="{% url 'explorar_vagas' %}" class="bg-white text-blue-600 border border-blue-600 font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-50 transition-colors">
+                    Procuro Vagas!
+                </a>
+                <!-- Classes .btn-primary-lg aplicadas diretamente -->
+                <a href="/empresas" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-700 transition-colors">
+                    Procuro Talentos!
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Seção de Vagas -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900">Últimas Vagas Publicadas</h2>
+                <p class="mt-3 text-gray-600">Oportunidades recentes esperando por você. Encontre o seu match perfeito!</p>
+            </div>
+
+            <!-- Grid de Vagas -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <!-- Vaga 1 -->
+                <!-- Classes .job-card aplicadas diretamente -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">TS</span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Desenvolvedor Frontend Pleno</h3>
+                            <p class="text-sm text-gray-600">TechSolutions</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-700">
+                        Estamos buscando um desenvolvedor frontend com experiência em React e TypeScript para se juntar à nossa equipe inovadora.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <!-- Classes .job-tag aplicadas diretamente -->
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Remoto</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Pleno</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">React</span>
+                    </div>
+                    <!-- Classes .btn-primary aplicadas diretamente -->
+                    <a href="{% url 'explorar_vagas' %}" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
+                        Ver Detalhes
+                    </a>
+                </div>
+
+                <!-- Vaga 2 -->
+                <!-- Classes .job-card aplicadas diretamente -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-lg">CM</span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Analista de Marketing Digital</h3>
+                            <p class="text-sm text-gray-600">Connecta Marketing</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-700">
+                        Procuramos um profissional de marketing para gerenciar campanhas de Inbound, mídias sociais e email-marketing.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <!-- Classes .job-tag aplicadas diretamente -->
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Híbrido</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Júnior</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Marketing</span>
+                    </div>
+                    <!-- Classes .btn-primary aplicadas diretamente -->
+                    <a href="/vagas/2" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
+                        Ver Detalhes
+                    </a>
+                </div>
+
+                <!-- Vaga 3 -->
+                <!-- Classes .job-card aplicadas diretamente -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 w-12 h-12 rounded-lg bg-yellow-100 text-yellow-700 flex items-center justify-center font-bold text-lg">DA</span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Engenheiro de Dados Sênior</h3>
+                            <p class="text-sm text-gray-600">Data Analytics Inc.</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-700">
+                        Buscamos um engenheiro de dados experiente para projetar e construir pipelines de dados escaláveis em nosso ambiente cloud.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <!-- Classes .job-tag aplicadas diretamente -->
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Remoto</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Sênior</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Python</span>
+                    </div>
+                    <!-- Classes .btn-primary aplicadas diretamente -->
+                    <a href="/vagas/3" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+
+            <!-- Botão Ver Todas -->
+            <div class="text-center mt-12">
+                <!-- Classes .btn-secondary-lg aplicadas diretamente -->
+                <a href="/vagas" class="bg-white text-blue-600 border border-blue-600 font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-50 transition-colors">
+                    Ver todas as vagas
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção CTA Footer -->
+    <section class="bg-blue-600 py-16">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-3xl font-bold text-white">Pronto para dar o próximo passo?</h2>
+            <p class="mt-4 text-lg text-blue-100">
+                Seja você um talento em busca de desafios ou uma empresa procurando a pessoa certa, a sua jornada começa aqui.
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <a href="/cadastro-candidato" class="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors">
+                    Criar Conta de Candidato
+                </a>
+                <a href="/publicar-vaga" class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors border border-blue-500">
+                    Publicar uma Vaga
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-gray-500">
+                &copy; 2025 TalentMatch!. Todos os direitos reservados.<br>
+                Uma plataforma de recrutamento inteligente para o seu SUCESSO.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
+

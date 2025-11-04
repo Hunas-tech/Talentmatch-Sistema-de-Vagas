@@ -1,0 +1,61 @@
+/* static/css/styles.css */
+
+/* 1. Definições Globais (Variáveis de Cor) */
+:root {
+  --color-primary-blue: #2E5BFF;
+  --color-primary-dark-blue: #254EDB; /* Tom mais escuro para hover */
+}
+
+/* 2. Classes de Utilitidade do Dashboard (Gráfico, Cards) */
+
+.subtle-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.bg-primary-blue {
+  background-color: var(--color-primary-blue);
+}
+
+.text-primary-blue {
+  color: var(--color-primary-blue);
+}
+
+.border-primary-blue {
+  border-color: var(--color-primary-blue);
+}
+
+/* Define a classe de hover. 
+  A barra invertida é necessária se usada DIRETAMENTE no HTML com Tailwind,
+  mas como é uma classe CSS, podemos simplificar. 
+  Vamos manter como eu instruí para garantir compatibilidade com o HTML.
+*/
+.hover\:bg-primary-dark-blue:hover {
+  background-color: var(--color-primary-dark-blue);
+}
+
+
+/* 3. Classes da Sidebar (Navegação) */
+
+/* Estilo do link de navegação padrão (inativo) */
+.nav-link {
+    color: #4b5563; /* text-gray-600 */
+    font-weight: 500; /* medium */
+    transition: background-color 0.2s, color 0.2s;
+}
+.nav-link:hover {
+    background-color: #f3f4f6; /* hover:bg-gray-100 */
+    color: #1f2937; /* hover:text-gray-800 */
+}
+
+/* Estilo do link ATIVO */
+.active-link {
+    background-color: var(--color-primary-blue);
+    color: #ffffff; /* text-white */
+    font-weight: 600; /* semibold */
+    box-shadow: 0 4px 8px rgba(46, 91, 255, 0.2);
+}
+
+/* Remove o sublinhado de todos os links na sidebar */
+aside a {
+    text-decoration: none;
+}

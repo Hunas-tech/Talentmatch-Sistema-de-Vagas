@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Empresa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para corresponder à imagem */
+        :root {
+            --primary-blue: #4F46E5; /* Cor principal (azul) */
+        }
+        /* As classes com @apply foram removidas e aplicadas diretamente no HTML,
+         pois o @apply não funciona com o script CDN do Tailwind.
+        */
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Cabeçalho -->
+    <header class="bg-white shadow-sm">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-2xl font-bold text-indigo-600">TalentMatch!</h1>
+                </div>
+                <div>
+                    <a href="{% url 'login' %}" class="bg-indigo-600 text-white font-semibold py-2 px-5 rounded-full hover:bg-indigo-700 transition-colors">
+                        Entrar
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="py-12">
+        <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-lg">
+
+            <!-- Título -->
+            <h2 class="text-3xl font-bold text-center text-gray-900">Crie sua Conta Empresarial</h2>
+            <p class="text-center text-gray-500 mt-2">Cadastre sua empresa para publicar vagas e encontrar talentos.</p>
+
+            <!-- Abas de Navegação -->
+            <div class="mt-8">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex justify-center gap-8" aria-label="Tabs">
+                        <a href="{% url 'cadastro_candidato' %}" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 text-sm font-medium">
+                            Sou Candidato
+                        </a>
+                        <a href="#" class="border-b-2 border-indigo-600 text-indigo-600 whitespace-nowrap py-4 px-1 text-sm font-medium">
+                            Sou Empresa
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Formulário -->
+            <form method="post" class="mt-8 space-y-8">
+
+                <!-- Seção: Dados da Empresa -->
+                <fieldset>
+                    <legend class="text-xl font-semibold text-gray-800 mb-6">Dados da Empresa</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div class="md:col-span-2">
+                            <label for="nome_empresa" class="block text-sm font-medium text-gray-700">Nome da Empresa</label>
+                            <input type="text" name="nome_empresa" id="nome_empresa" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div>
+                            <label for="cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
+                            <input type="text" name="cnpj" id="cnpj" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div>
+                            <label for="area_atuacao" class="block text-sm font-medium text-gray-700">Área de Atuação</label>
+                            <input type="text" name="area_atuacao" id="area_atuacao" placeholder="Ex: Tecnologia da Informação" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="habilidades" class="block text-sm font-medium text-gray-700">Habilidades (separadas por vírgula)</label>
+                            <input type="text" name="habilidades" id="habilidades" placeholder="Ex: Liderança, Gestão, Marketing..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- Seção: Acesso -->
+                <fieldset>
+                    <legend class="text-xl font-semibold text-gray-800 mb-6">Acesso</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email Corporativo</label>
+                            <input type="email" name="email" id="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div>
+                            <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
+                            <input type="password" name="senha" id="senha" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div>
+                            <label for="confirmar_senha" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                            <input type="password" name="confirmar_senha" id="confirmar_senha" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- Seção: Arquivos e Links -->
+                <fieldset>
+                    <legend class="text-xl font-semibold text-gray-800 mb-6">Arquivos e Links (Opcional)</legend>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label for="logo_empresa" class="block text-sm font-medium text-gray-700">Logo da Empresa</label>
+                            <input type="file" name="logo_empresa" id="logo_empresa" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        </div>
+
+                        <div>
+                            <label for="site" class="block text-sm font-medium text-gray-700">Site / Portfólio</label>
+                            <input type="url" name="site" id="site" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                        <div>
+                            <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn</label>
+                            <input type="url" name="linkedin" id="linkedin" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mt-1">
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- Termos -->
+                <div class="border-t border-gray-200 pt-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <input id="termos" name="termos" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="termos" class="text-gray-700">Eu li e concordo com os <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Termos de Serviço</a> e a <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Política de Privacidade</a>.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão -->
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Criar Conta de Empresa
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Link de login -->
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-600">
+                    Já tem uma conta?
+                    <a href="{% url 'login' %}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        Faça login
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

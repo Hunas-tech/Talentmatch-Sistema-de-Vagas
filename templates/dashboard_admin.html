@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard do Admin | TalentMatch!{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Dashboard do Administrador</h2>
+        <p class="text-gray-500 mt-1">Visão geral da saúde e atividade da plataforma.</p>
+    </div>
+
+    <!-- Grid de Métricas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Card: Total de Usuários -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-base font-semibold text-gray-500">Total de Candidatos</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">1,250</p>
+        </div>
+        <!-- Card: Total de Empresas -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-base font-semibold text-gray-500">Total de Empresas</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">87</p>
+        </div>
+        <!-- Card: Vagas Ativas -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-base font-semibold text-gray-500">Total de Vagas Ativas</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">215</p>
+        </div>
+        <!-- Card: Denúncias Pendentes -->
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-base font-semibold text-gray-500">Denúncias Pendentes</h3>
+            <p class="text-3xl font-bold text-red-500 mt-2">2</p>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Crescimento de Usuários (Últimos 6 meses)</h3>
+            <div class="h-80">
+                <canvas id="adminUserGrowthChart"></canvas>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl subtle-shadow">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Vagas Publicadas por Mês</h3>
+            <div class="h-80">
+                <canvas id="adminJobsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Gráfico de Crescimento de Usuários do Admin
+    const adminUserCtx = document.getElementById('adminUserGrowthChart').getContext('2d');
+    new Chart(adminUserCtx, {
+        type: 'line',
+        data: {
+            labels: ['Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro'],
+            datasets: [{
+                label: 'Candidatos',
+                data: [150, 220, 300, 450, 680, 1250],
+                borderColor: '#2E5BFF',
+                tension: 0.3,
+                fill: false,
+            }, {
+                label: 'Empresas',
+                data: [12, 20, 35, 50, 70, 87],
+                borderColor: '#34D399',
+                tension: 0.3,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+
+    // Gráfico de Vagas do Admin
+    const adminJobsCtx = document.getElementById('adminJobsChart').getContext('2d');
+    new Chart(adminJobsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro'],
+            datasets: [{
+                label: 'Vagas Publicadas',
+                data: [50, 80, 110, 150, 180, 215],
+                backgroundColor: '#A78BFA',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
