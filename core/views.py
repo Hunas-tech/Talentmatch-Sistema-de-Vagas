@@ -124,6 +124,15 @@ def painel_denuncias_resolvidas(request):
 def painel_denuncias_ignoradas(request):
     """Painel de denúncias ignoradas."""
     return render(request, 'painel_denuncias_ignoradas.html')   
+
+def relatorios(request):
+    """Página de relatórios administrativos."""
+    return render(request, 'relatorios.html')
+
+def config_admin(request):
+    """Página de configurações administrativas."""
+    return render(request, 'config_admin.html')
+
 # ===============================
 # 🔐 AUTENTICAÇÃO (LOGIN / LOGOUT)
 # ===============================
@@ -147,3 +156,7 @@ def logout_view(request):
 def cadastro(request):
     """Página de cadastro do candidato."""
     return render(request, 'cadastro.html')
+
+def sair(request):
+    logout(request)
+    return redirect('landing_page')

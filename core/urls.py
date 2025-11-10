@@ -48,5 +48,6 @@ urlpatterns = [
     path('painel_denuncias/', views.painel_denuncias, name='painel_denuncias'),
     path('painel_denuncias_resolvidas/', views.painel_denuncias_resolvidas, name='painel_denuncias_resolvidas'),
     path('painel_denuncias_ignoradas/', views.painel_denuncias_ignoradas, name='painel_denuncias_ignoradas'),
-
+    path('relatorios/', views.relatorios, name='relatorios'),
+    path('config_admin/', views.config_admin, name='config_admin'),
 ]
