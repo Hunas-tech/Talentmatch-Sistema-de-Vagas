@@ -40,4 +40,13 @@ urlpatterns = [
     path('cadastro/', views.cadastro, name='cadastro_candidato'),
     path('cadastro_empresa/', views.cadastro_empresa, name='cadastro_empresa'),
     path('analise/', views.analise, name='analise'),
+
+# Administração
+    path('gerenciar_usuarios/', views.gerenciar_usuarios, name='gerenciar_usuarios'),
+    path('gerenciar_empresas/', views.gerenciar_empresas, name='gerenciar_empresas'),
+    path('gerenciar_vagas/', views.gerenciar_vagas, name='gerenciar_vagas'),
+    path('painel_denuncias/', views.painel_denuncias, name='painel_denuncias'),
+    path('painel_denuncias_resolvidas/', views.painel_denuncias_resolvidas, name='painel_denuncias_resolvidas'),
+    path('painel_denuncias_ignoradas/', views.painel_denuncias_ignoradas, name='painel_denuncias_ignoradas'),
+
 ]
