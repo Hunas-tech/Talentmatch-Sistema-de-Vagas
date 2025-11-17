@@ -85,8 +85,12 @@ def dashboard_empresa(request):
     return render(request, 'dashboard_empresa.html')
 
 def cadastro_empresa(request):
-    """Página de cadastro de uma nova empresa."""
-    return render(request, 'cadastro_empresa.html')
+    if request.method == "POST":
+        print("FAKE REGISTER DA EMPRESA:")
+        print(request.POST)
+        return redirect("dashboard_empresa")  # Certifique-se que existe essa rota no urls.py
+
+    return render(request, "cadastro_empresa.html")
 
 def cadastrar_vaga(request):
     """Formulário para cadastrar uma nova vaga."""
