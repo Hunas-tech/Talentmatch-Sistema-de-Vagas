@@ -18,6 +18,7 @@ TalentMatch is a Django-based web application for job matching and recruitment. 
 - **Messaging**: Internal messaging system and AI chat
 - **Courses**: Training and course management with progress tracking
 - **Authentication**: Login/logout with role-based access
+- **Intelligent Matching**: Algorithm-based candidate-job matching with scoring (40% skills, 30% location, 20% experience, 10% salary)
 
 ## Project Architecture
 
@@ -28,11 +29,23 @@ TalentMatch is a Django-based web application for job matching and recruitment. 
 ### Key Directories
 - `templates/`: HTML templates for all pages
 - `static/css/`: Stylesheets
-- `core/`: Main app with models, views, and URLs
+- `core/`: Main app with models, views, URLs, and matching algorithm
+  - `models.py`: Database models
+  - `views.py`: View functions and API endpoints
+  - `matching.py`: Intelligent matching algorithm
+  - `admin.py`: Django admin configuration
+  - `urls.py`: URL routing
 - `talentmatch_project/`: Project configuration
 
-### Database
-Currently using SQLite for development. The database is already initialized with migrations applied.
+### Database Models
+Currently using SQLite for development. The database includes:
+- **Candidato**: Candidate profiles with skills, experience, location, and salary expectations
+- **Empresa**: Company profiles with sector, location, and description
+- **Vaga**: Job postings with required skills, salary range, location, and type (remote/hybrid/on-site)
+- **Match**: Candidate-job matches with compatibility scores (0-100)
+- **Mensagem**: Internal messaging system
+- **Curso**: Training courses catalog
+- **ProgressoCurso**: Course progress tracking for candidates
 
 ## Configuration
 
@@ -59,6 +72,20 @@ python manage.py runserver 0.0.0.0:5000
 - asgiref==3.10.0
 - sqlparse==0.5.3
 
+## Matching API Endpoints
+The platform provides REST API endpoints for matching:
+- `GET /api/matches/candidato/<id>/` - Generate and retrieve matches for a candidate
+- `GET /api/matches/vaga/<id>/` - Generate and retrieve matches for a job posting
+- `POST /api/vaga/<id>/aplicar/` - Apply to a job posting
+- `GET /api/meus-matches/` - Get matches for logged-in candidate
+
+### Matching Algorithm
+The matching score (0-100) is calculated based on:
+- **Skills Match (40%)**: Percentage of required skills that candidate possesses
+- **Location Match (30%)**: Same city (30pts), same state (15pts), remote (30pts)
+- **Experience Match (20%)**: Years of experience vs. minimum required
+- **Salary Match (10%)**: Alignment between candidate expectation and job offer
+
 ## Recent Changes
 - **2025-11-18**: Initial project import and Replit environment setup
   - Installed Python 3.11 and Django
@@ -74,3 +101,12 @@ python manage.py runserver 0.0.0.0:5000
     - Updated login_view to redirect to dashboard_candidato after login
     - Fixed all landing page links to use proper Django URL tags
     - Corrected all navigation links throughout the application
+
+- **2025-11-18**: Database and Matching System Implementation
+  - Created complete database schema with 7 models (Candidato, Empresa, Vaga, Match, Mensagem, Curso, ProgressoCurso)
+  - Implemented intelligent matching algorithm in `core/matching.py`
+  - Created 4 API endpoints for matching functionality
+  - Updated views to save candidate and company registrations to database
+  - Registered all models in Django admin panel
+  - Fixed bug in skills scoring to filter empty strings correctly
+  - Tested matching with sample data showing accurate score calculations

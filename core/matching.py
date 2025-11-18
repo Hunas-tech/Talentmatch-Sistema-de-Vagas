@@ -13,10 +13,11 @@ def calcular_score_habilidades(candidato_habilidades, vaga_habilidades):
     if not candidato_habilidades or not vaga_habilidades:
         return 0
     
-    candidato_set = set([h.strip().lower() for h in candidato_habilidades.split(',')])
-    vaga_set = set([h.strip().lower() for h in vaga_habilidades.split(',')])
+    # Filtra strings vazias antes de criar os sets
+    candidato_set = set([h.strip().lower() for h in candidato_habilidades.split(',') if h.strip()])
+    vaga_set = set([h.strip().lower() for h in vaga_habilidades.split(',') if h.strip()])
     
-    if not vaga_set:
+    if not vaga_set or not candidato_set:
         return 0
     
     # Calcula porcentagem de habilidades que o candidato possui
@@ -78,6 +79,11 @@ def calcular_score_salario(candidato_pretensao, vaga_salario_min, vaga_salario_m
     """
     if not candidato_pretensao or not vaga_salario_min:
         return 10  # Score neutro se não houver informação
+    
+    # Converter para float para evitar problemas com Decimal
+    candidato_pretensao = float(candidato_pretensao)
+    vaga_salario_min = float(vaga_salario_min)
+    vaga_salario_max = float(vaga_salario_max) if vaga_salario_max else None
     
     # Se a pretensão está dentro da faixa da vaga
     if vaga_salario_max and vaga_salario_min <= candidato_pretensao <= vaga_salario_max:
