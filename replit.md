@@ -68,3 +68,9 @@ python manage.py runserver 0.0.0.0:5000
   - Applied database migrations
   - Fixed CSS loading: Added {% load static %} and CSS links to all templates
   - Created .gitignore file for Python/Django projects
+  - Fixed navigation redirects:
+    - Updated cadastro view to redirect to dashboard_candidato after submission
+    - Updated cadastro_empresa view to redirect to dashboard_empresa after submission
+    - Updated login_view to redirect to dashboard_candidato after login
+    - Fixed all landing page links to use proper Django URL tags
+    - Corrected all navigation links throughout the application

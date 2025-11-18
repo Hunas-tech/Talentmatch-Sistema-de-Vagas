@@ -40,11 +40,11 @@
                 </div>
                 <!-- Botões de Navegação -->
                 <div class="flex items-center gap-4">
-                    <a href="/cadastro" class="text-gray-600 font-medium hover:text-blue-600 transition-colors">
+                    <a href="{% url 'cadastro_candidato' %}" class="text-gray-600 font-medium hover:text-blue-600 transition-colors">
                         Cadastrar
                     </a>
                     <!-- Classes .btn-primary aplicadas diretamente -->
-                    <a href="/login" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
+                    <a href="{% url 'login' %}" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-700 transition-colors">
                         Entrar
                     </a>
                 </div>
@@ -70,7 +70,7 @@
                     Procuro Vagas!
                 </a>
                 <!-- Classes .btn-primary-lg aplicadas diretamente -->
-                <a href="/empresas" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-700 transition-colors">
+                <a href="{% url 'cadastro_empresa' %}" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-700 transition-colors">
                     Procuro Talentos!
                 </a>
             </div>
@@ -166,7 +166,7 @@
             <!-- Botão Ver Todas -->
             <div class="text-center mt-12">
                 <!-- Classes .btn-secondary-lg aplicadas diretamente -->
-                <a href="/vagas" class="bg-white text-blue-600 border border-blue-600 font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-50 transition-colors">
+                <a href="{% url 'explorar_vagas' %}" class="bg-white text-blue-600 border border-blue-600 font-bold py-3 px-8 rounded-lg text-base hover:bg-blue-50 transition-colors">
                     Ver todas as vagas
                 </a>
             </div>
@@ -181,10 +181,10 @@
                 Seja você um talento em busca de desafios ou uma empresa procurando a pessoa certa, a sua jornada começa aqui.
             </p>
             <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="/cadastro-candidato" class="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors">
+                <a href="{% url 'cadastro_candidato' %}" class="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors">
                     Criar Conta de Candidato
                 </a>
-                <a href="/publicar-vaga" class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors border border-blue-500">
+                <a href="{% url 'cadastro_empresa' %}" class="bg-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors border border-blue-500">
                     Publicar uma Vaga
                 </a>
             </div>

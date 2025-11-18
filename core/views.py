@@ -85,11 +85,13 @@ def dashboard_empresa(request):
     return render(request, 'dashboard_empresa.html')
 
 def cadastro_empresa(request):
+    """Página de cadastro da empresa."""
     if request.method == "POST":
-        print("FAKE REGISTER DA EMPRESA:")
+        # Processar o cadastro da empresa aqui
+        print("CADASTRO DA EMPRESA:")
         print(request.POST)
-        return redirect("dashboard_empresa")  # Certifique-se que existe essa rota no urls.py
-
+        # Redireciona para o dashboard da empresa após cadastro
+        return redirect("dashboard_empresa")
     return render(request, "cadastro_empresa.html")
 
 def cadastrar_vaga(request):
@@ -143,6 +145,13 @@ def config_admin(request):
 
 def login_view(request):
     """Página de login."""
+    if request.method == "POST":
+        # Processar o login aqui (por enquanto apenas simula)
+        email = request.POST.get('email')
+        print(f"LOGIN - Email: {email}")
+        # Por padrão, redireciona para dashboard do candidato
+        # Em uma implementação real, verificaria o tipo de usuário
+        return redirect("dashboard_candidato")
     return render(request, 'login.html')
 
 def logout_view(request):
@@ -159,6 +168,12 @@ def logout_view(request):
 
 def cadastro(request):
     """Página de cadastro do candidato."""
+    if request.method == "POST":
+        # Processar o cadastro aqui (por enquanto apenas simula)
+        print("CADASTRO DO CANDIDATO:")
+        print(request.POST)
+        # Redireciona para o dashboard do candidato após cadastro
+        return redirect("dashboard_candidato")
     return render(request, 'cadastro.html')
 
 def sair(request):
