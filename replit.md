@@ -66,3 +66,5 @@ python manage.py runserver 0.0.0.0:5000
   - Created workflow for development server on port 5000
   - Configured deployment with Gunicorn
   - Applied database migrations
+  - Fixed CSS loading: Added {% load static %} and CSS links to all templates
+  - Created .gitignore file for Python/Django projects
