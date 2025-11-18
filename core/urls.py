@@ -50,4 +50,10 @@ urlpatterns = [
     path('painel_denuncias_ignoradas/', views.painel_denuncias_ignoradas, name='painel_denuncias_ignoradas'),
     path('relatorios/', views.relatorios, name='relatorios'),
     path('config_admin/', views.config_admin, name='config_admin'),
+    
+# API de Matching
+    path('api/matches/candidato/<int:candidato_id>/', views.api_gerar_matches_candidato, name='api_matches_candidato'),
+    path('api/matches/vaga/<int:vaga_id>/', views.api_gerar_matches_vaga, name='api_matches_vaga'),
+    path('api/vaga/<int:vaga_id>/aplicar/', views.api_aplicar_vaga, name='api_aplicar_vaga'),
+    path('api/meus-matches/', views.api_meus_matches, name='api_meus_matches'),
 ]
