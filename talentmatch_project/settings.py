@@ -89,3 +89,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MATCHING_WEIGHTS = {
+    'habilidades': 40,
+    'experiencia': 25,
+    'localizacao': 20,
+    'salario': 15,
+}
+

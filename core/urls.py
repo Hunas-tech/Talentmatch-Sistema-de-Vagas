@@ -67,4 +67,10 @@ urlpatterns = [
 # API de Mensagens
     path('api/mensagens/enviar/', views.api_enviar_mensagem, name='api_enviar_mensagem'),
     path('api/mensagens/<int:id>/marcar-lida/', views.api_marcar_mensagem_lida, name='api_marcar_mensagem_lida'),
+    
+# API de Candidaturas
+    path('api/vagas/<int:vaga_id>/candidatar/', views.api_candidatar_vaga, name='api_candidatar_vaga'),
+    path('api/candidaturas/<int:candidatura_id>/atualizar/', views.api_atualizar_candidatura, name='api_atualizar_candidatura'),
+    path('minhas-candidaturas/', views.listar_candidaturas_candidato, name='listar_candidaturas'),
+    path('empresa/candidaturas/', views.listar_candidaturas_empresa, name='listar_candidaturas_empresa'),
 ]

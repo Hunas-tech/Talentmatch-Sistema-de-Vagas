@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Candidato, Empresa, Vaga, Match, Mensagem, Curso, ProgressoCurso
+from .models import Candidato, Empresa, Vaga, Match, Candidatura, Mensagem, Curso, ProgressoCurso, Notificacao
 
 
 @admin.register(Candidato)
@@ -50,3 +50,19 @@ class ProgressoCursoAdmin(admin.ModelAdmin):
     list_display = ['candidato', 'curso', 'progresso', 'concluido', 'iniciado_em']
     list_filter = ['concluido', 'iniciado_em']
     search_fields = ['candidato__nome', 'curso__titulo']
+
+
+@admin.register(Candidatura)
+class CandidaturaAdmin(admin.ModelAdmin):
+    list_display = ['candidato', 'vaga', 'status', 'criado_em', 'atualizado_em']
+    list_filter = ['status', 'criado_em']
+    search_fields = ['candidato__nome', 'vaga__titulo', 'vaga__empresa__nome']
+    ordering = ['-criado_em']
+
+
+@admin.register(Notificacao)
+class NotificacaoAdmin(admin.ModelAdmin):
+    list_display = ['usuario', 'tipo', 'titulo', 'lida', 'criado_em']
+    list_filter = ['tipo', 'lida', 'criado_em']
+    search_fields = ['titulo', 'mensagem', 'usuario__username']
+    ordering = ['-criado_em']

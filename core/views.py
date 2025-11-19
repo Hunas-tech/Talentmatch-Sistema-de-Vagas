@@ -7,7 +7,7 @@ from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError
-from .models import Candidato, Empresa, Vaga, Match, Curso, ProgressoCurso, Notificacao, Mensagem
+from .models import Candidato, Empresa, Vaga, Match, Candidatura, Curso, ProgressoCurso, Notificacao, Mensagem
 from .matching import gerar_matches_para_candidato, gerar_matches_para_vaga, calcular_compatibilidade
 from datetime import datetime
 import os
@@ -952,3 +952,140 @@ def api_marcar_mensagem_lida(request, id):
         return JsonResponse({'sucesso': True})
     except Mensagem.DoesNotExist:
         return JsonResponse({'error': 'Mensagem não encontrada'}, status=404)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_candidatar_vaga(request, vaga_id):
+    """
+    API: Candidata-se a uma vaga
+    POST /api/vagas/<vaga_id>/candidatar/
+    """
+    try:
+        candidato = request.user.candidato
+    except AttributeError:
+        return JsonResponse({'error': 'Você precisa ser um candidato para se candidatar'}, status=403)
+    
+    try:
+        vaga = Vaga.objects.get(id=vaga_id, status='aberta')
+    except Vaga.DoesNotExist:
+        return JsonResponse({'error': 'Vaga não encontrada ou não está mais disponível'}, status=404)
+    
+    if Candidatura.objects.filter(candidato=candidato, vaga=vaga).exists():
+        return JsonResponse({'error': 'Você já se candidatou a esta vaga'}, status=400)
+    
+    try:
+        data = json.loads(request.body) if request.body else {}
+    except json.JSONDecodeError:
+        data = {}
+    
+    carta_apresentacao = data.get('carta_apresentacao', '')
+    if carta_apresentacao and len(carta_apresentacao) > 2000:
+        return JsonResponse({'error': 'Carta de apresentação muito longa (máximo 2000 caracteres)'}, status=400)
+    
+    try:
+        match = Match.objects.filter(candidato=candidato, vaga=vaga).first()
+        if not match:
+            score = calcular_compatibilidade(candidato, vaga)
+            match = Match.objects.create(candidato=candidato, vaga=vaga, score=score)
+        
+        candidatura = Candidatura.objects.create(
+            candidato=candidato,
+            vaga=vaga,
+            match=match,
+            carta_apresentacao=carta_apresentacao
+        )
+        
+        messages.success(request, f'Candidatura enviada com sucesso para a vaga {vaga.titulo}!')
+        return JsonResponse({
+            'sucesso': True,
+            'candidatura_id': candidatura.id,
+            'status': candidatura.status
+        })
+    except Exception as e:
+        return JsonResponse({'error': f'Erro ao criar candidatura: {str(e)}'}, status=500)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_atualizar_candidatura(request, candidatura_id):
+    """
+    API: Atualiza status de uma candidatura (empresa)
+    POST /api/candidaturas/<candidatura_id>/atualizar/
+    """
+    try:
+        empresa = request.user.empresa
+    except AttributeError:
+        return JsonResponse({'error': 'Acesso negado: você precisa ser uma empresa'}, status=403)
+    
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    
+    status = data.get('status')
+    if not status:
+        return JsonResponse({'error': 'Status é obrigatório'}, status=400)
+    
+    status_validos = [choice[0] for choice in Candidatura.STATUS_CHOICES]
+    if status not in status_validos:
+        return JsonResponse({'error': f'Status inválido. Valores permitidos: {", ".join(status_validos)}'}, status=400)
+    
+    try:
+        candidatura = Candidatura.objects.get(id=candidatura_id, vaga__empresa=empresa)
+    except Candidatura.DoesNotExist:
+        return JsonResponse({'error': 'Candidatura não encontrada ou você não tem permissão para atualizá-la'}, status=404)
+    
+    observacoes = data.get('observacoes', '')
+    if observacoes and len(observacoes) > 1000:
+        return JsonResponse({'error': 'Observações muito longas (máximo 1000 caracteres)'}, status=400)
+    
+    try:
+        candidatura.status = status
+        if observacoes:
+            candidatura.observacoes_empresa = observacoes
+        candidatura.save()
+        
+        return JsonResponse({
+            'sucesso': True,
+            'status': candidatura.status,
+            'mensagem': 'Candidatura atualizada com sucesso'
+        })
+    except Exception as e:
+        return JsonResponse({'error': f'Erro ao atualizar candidatura: {str(e)}'}, status=500)
+
+
+@login_required(login_url='login')
+def listar_candidaturas_candidato(request):
+    """Lista todas as candidaturas do candidato"""
+    try:
+        candidato = request.user.candidato
+        candidaturas = Candidatura.objects.filter(
+            candidato=candidato
+        ).select_related('vaga', 'vaga__empresa', 'match').order_by('-criado_em')
+        
+        context = {
+            'candidaturas': candidaturas,
+        }
+        return render(request, 'candidaturas_vagas.html', context)
+    except:
+        messages.error(request, 'Perfil de candidato não encontrado.')
+        return redirect('home')
+
+
+@login_required(login_url='login')
+def listar_candidaturas_empresa(request):
+    """Lista todas as candidaturas para vagas da empresa"""
+    try:
+        empresa = request.user.empresa
+        candidaturas = Candidatura.objects.filter(
+            vaga__empresa=empresa
+        ).select_related('candidato', 'vaga', 'match').order_by('-criado_em')
+        
+        context = {
+            'candidaturas': candidaturas,
+        }
+        return render(request, 'gerenciar_candidaturas.html', context)
+    except:
+        messages.error(request, 'Perfil de empresa não encontrado.')
+        return redirect('home')

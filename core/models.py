@@ -132,9 +132,39 @@ class Match(models.Model):
         return f"Match: {self.candidato.nome} - {self.vaga.titulo} ({self.score}%)"
 
 
+class Candidatura(models.Model):
+    STATUS_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('em_analise', 'Em Análise'),
+        ('entrevista_agendada', 'Entrevista Agendada'),
+        ('aprovado', 'Aprovado'),
+        ('recusado', 'Recusado'),
+        ('cancelado', 'Cancelado'),
+    ]
+    
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, related_name='candidaturas')
+    vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE, related_name='candidaturas')
+    match = models.ForeignKey(Match, on_delete=models.SET_NULL, null=True, blank=True, related_name='candidatura')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='pendente')
+    carta_apresentacao = models.TextField(blank=True, help_text="Carta de apresentação do candidato")
+    observacoes_empresa = models.TextField(blank=True, help_text="Observações da empresa sobre a candidatura")
+    
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name_plural = "Candidaturas"
+        unique_together = ['candidato', 'vaga']
+        ordering = ['-criado_em']
+    
+    def __str__(self):
+        return f"{self.candidato.nome} - {self.vaga.titulo} ({self.status})"
+
+
 class Mensagem(models.Model):
     remetente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensagens_enviadas')
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mensagens_recebidas')
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, null=True, blank=True, related_name='mensagens', help_text="Match relacionado à conversa")
     assunto = models.CharField(max_length=200)
     conteudo = models.TextField()
     lida = models.BooleanField(default=False)
