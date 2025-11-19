@@ -13,36 +13,44 @@
     <!-- Grid de Métricas -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
-        <div class="bg-white p-6 rounded-2xl subtle-shadow">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-500">Vagas Ativas</h3>
-                <i data-lucide="briefcase" class="w-6 h-6 text-blue-500"></i>
+        <div class="stat-card">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800 mt-2">4</p>
+            <div class="stat-card-value">4</div>
+            <div class="stat-card-label">Vagas Ativas</div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl subtle-shadow">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-500">Nº de Candidaturas (30d)</h3>
-                <i data-lucide="users" class="w-6 h-6 text-green-500"></i>
+        <div class="stat-card stat-card-success">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800 mt-2">112</p>
+            <div class="stat-card-value">112</div>
+            <div class="stat-card-label">Candidaturas (30d)</div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl subtle-shadow">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-500">Visualizações (30d)</h3>
-                <i data-lucide="eye" class="w-6 h-6 text-indigo-500"></i>
+        <div class="stat-card stat-card-secondary">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                    <i data-lucide="eye" class="w-6 h-6 text-white"></i>
+                </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800 mt-2">1,254</p>
+            <div class="stat-card-value">1.254</div>
+            <div class="stat-card-label">Visualizações (30d)</div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl subtle-shadow">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-500">Mensagens</h3>
-                <i data-lucide="message-square" class="w-6 h-6 text-orange-500"></i>
+        <div class="stat-card stat-card-warning">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                    <i data-lucide="message-square" class="w-6 h-6 text-white"></i>
+                </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800 mt-2">3</p>
+            <div class="stat-card-value">3</div>
+            <div class="stat-card-label">Mensagens Não Lidas</div>
         </div>
 
     </div>
