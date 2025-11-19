@@ -283,6 +283,7 @@ def dashboard_empresa(request):
     vagas = Vaga.objects.filter(empresa=empresa).order_by('-criado_em')
     vagas_abertas = vagas.filter(status='aberta')
     total_candidatos = Match.objects.filter(vaga__empresa=empresa).count()
+    mensagens_nao_lidas = Mensagem.objects.filter(destinatario=request.user, lida=False).count()
     
     context = {
         'empresa': empresa,
@@ -290,6 +291,7 @@ def dashboard_empresa(request):
         'vagas_abertas_count': vagas_abertas.count(),
         'total_vagas': vagas.count(),
         'total_candidatos': total_candidatos,
+        'mensagens_nao_lidas': mensagens_nao_lidas,
     }
     return render(request, 'dashboard_empresa.html', context)
 
@@ -614,10 +616,6 @@ def cadastro(request):
             messages.error(request, f'Erro inesperado: {str(e)}')
     
     return render(request, 'cadastro.html')
-
-def sair(request):
-    logout(request)
-    return redirect('landing_page')
 
 
 # ===============================

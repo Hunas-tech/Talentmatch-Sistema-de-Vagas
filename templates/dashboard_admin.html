@@ -87,12 +87,12 @@
         <!-- Navegação -->
         <nav class="flex-1 px-4 py-2 space-y-2">
             <!-- Item Ativo -->
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-sidebar-active text-sidebar-active font-semibold">
+            <a href="{% url 'dashboard_admin' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-sidebar-active text-sidebar-active font-semibold">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                 <span>Visão Geral</span>
             </a>
             <!-- Itens Inativos -->
-            <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+            <a href="{% url 'gerenciar_usuarios' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
                 <i data-lucide="users" class="w-5 h-5"></i>
                 <span>Gerenciar Usuários</span>
             </a>
