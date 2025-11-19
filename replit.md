@@ -181,6 +181,33 @@ openai>=1.58.1
 
 ## Histórico de Mudanças Recentes
 
+### 2025-11-19 (Noite): Sistema Completo de Edição de Perfil ✏️
+- ✅ **ModelForms Robustos**:
+  - `CandidatoPerfilForm`: Edição completa de perfil de candidato
+  - `EmpresaPerfilForm`: Edição completa de perfil de empresa
+  - Campos do User (first_name, last_name, email) integrados nos forms
+  - Validação automática com widgets estilizados (Tailwind)
+- ✅ **Views de Edição**:
+  - `editar_perfil_candidato`: Permite candidatos atualizarem suas informações
+  - `editar_perfil_empresa`: Permite empresas atualizarem seus dados
+  - Tratamento de erros robusto e null-safe
+  - Persistência correta em User e modelo (Candidato/Empresa)
+  - Mensagens de sucesso/erro exibidas ao usuário
+- ✅ **Templates Modernos**:
+  - `editar_perfil_candidato.html`: Interface intuitiva para candidatos
+  - `editar_perfil_empresa.html`: Interface profissional para empresas
+  - Design responsivo com seções organizadas
+  - Ícones Lucide para melhor UX
+  - Campos obrigatórios marcados com asterisco
+  - Validação inline de erros
+- ✅ **Integração com Dashboards**:
+  - Botões destacados "Editar Perfil" em todos os dashboards
+  - URLs configuradas: `/editar-perfil/` e `/empresa/editar-perfil/`
+  - Fluxo completo: Login → Dashboard → Editar Perfil → Salvar → Dashboard
+- ✅ **Campos Editáveis**:
+  - **Candidato**: Nome, Sobrenome, Email, Telefone, Cidade, Estado, Habilidades, Anos de Experiência, Escolaridade, Pretensão Salarial, Área de Interesse, Currículo
+  - **Empresa**: Nome, Email, Telefone, Setor, Site, Cidade, Estado, Endereço, Descrição (CNPJ readonly)
+
 ### 2025-11-19 (Tarde): Modernização Visual Completa 🎨
 - ✅ **Nova Paleta de Cores**: Design system com cores vibrantes e profissionais
   - Azul primário vibrante (#2563EB) com gradientes
