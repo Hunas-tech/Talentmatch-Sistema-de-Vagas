@@ -1,6 +1,7 @@
 # CAMINHO: PROJETOTCC/talentmatch_project/settings.py
 
 import os
+import dj_database_url
 from pathlib import Path
 
 # Define o caminho raiz do projeto
@@ -61,12 +62,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'talentmatch_project.wsgi.application'
 
 # Base de Dados
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Internacionalização
 LANGUAGE_CODE = 'pt-br'

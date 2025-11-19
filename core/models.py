@@ -178,3 +178,28 @@ class ProgressoCurso(models.Model):
     
     def __str__(self):
         return f"{self.candidato.nome} - {self.curso.titulo} ({self.progresso}%)"
+
+
+class Notificacao(models.Model):
+    TIPO_CHOICES = [
+        ('match', 'Novo Match'),
+        ('mensagem', 'Nova Mensagem'),
+        ('vaga', 'Nova Vaga'),
+        ('candidatura', 'Nova Candidatura'),
+        ('sistema', 'Notificação do Sistema'),
+    ]
+    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notificacoes')
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    titulo = models.CharField(max_length=200)
+    mensagem = models.TextField()
+    lida = models.BooleanField(default=False)
+    url = models.CharField(max_length=500, blank=True, help_text="URL para redirecionar ao clicar")
+    criado_em = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = "Notificações"
+        ordering = ['-criado_em']
+    
+    def __str__(self):
+        return f"{self.usuario.username} - {self.titulo}"
