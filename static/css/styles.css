@@ -167,6 +167,25 @@ html {
   background-color: var(--color-gray-100);
 }
 
+.btn-outline {
+  background-color: white;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-outline:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Tamanhos de botão */
 .btn-sm {
   padding: 0.375rem 0.875rem;
