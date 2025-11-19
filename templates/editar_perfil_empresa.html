@@ -41,11 +41,11 @@
                 <div class="space-y-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            {{ form.nome_empresa.label }} <span class="text-red-500">*</span>
+                            {{ form.nome.label }} <span class="text-red-500">*</span>
                         </label>
-                        {{ form.nome_empresa }}
-                        {% if form.nome_empresa.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.nome_empresa.errors.0 }}</p>
+                        {{ form.nome }}
+                        {% if form.nome.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.nome.errors.0 }}</p>
                         {% endif %}
                     </div>
 
@@ -72,26 +72,24 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                {{ form.tamanho.label }}
-                            </label>
-                            {{ form.tamanho }}
-                            {% if form.tamanho.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.tamanho.errors.0 }}</p>
-                            {% endif %}
-                        </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.site.label }}
+                        </label>
+                        {{ form.site }}
+                        {% if form.site.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.site.errors.0 }}</p>
+                        {% endif %}
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                {{ form.site.label }}
-                            </label>
-                            {{ form.site }}
-                            {% if form.site.errors %}
-                                <p class="mt-1 text-sm text-red-600">{{ form.site.errors.0 }}</p>
-                            {% endif %}
-                        </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.endereco.label }}
+                        </label>
+                        {{ form.endereco }}
+                        {% if form.endereco.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.endereco.errors.0 }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -105,11 +103,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            {{ form.email.label }} <span class="text-red-500">*</span>
+                            {{ form.user_email.label }} <span class="text-red-500">*</span>
                         </label>
-                        {{ form.email }}
-                        {% if form.email.errors %}
-                            <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                        {{ form.user_email }}
+                        {% if form.user_email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.user_email.errors.0 }}</p>
                         {% endif %}
                     </div>
 

@@ -102,7 +102,9 @@ def editar_perfil_candidato(request):
         else:
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f'{form.fields[field].label}: {error}')
+                    field_obj = form.fields.get(field)
+                    field_label = field_obj.label if field_obj else field
+                    messages.error(request, f'{field_label}: {error}')
     else:
         form = CandidatoPerfilForm(instance=candidato, user=request.user)
     
@@ -321,7 +323,9 @@ def editar_perfil_empresa(request):
         else:
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f'{form.fields[field].label}: {error}')
+                    field_obj = form.fields.get(field)
+                    field_label = field_obj.label if field_obj else field
+                    messages.error(request, f'{field_label}: {error}')
     else:
         form = EmpresaPerfilForm(instance=empresa, user=request.user)
     
