@@ -65,10 +65,11 @@ talentmatch_project/
 2. **Empresa**: Dados da empresa (CNPJ, setor, descrição)
 3. **Vaga**: Vagas com requisitos, habilidades, salário, tipo de trabalho
 4. **Match**: Registro de compatibilidade candidato-vaga (score 0-100)
-5. **Mensagem**: Sistema de mensagens entre usuários
-6. **Curso**: Catálogo de cursos disponíveis
-7. **ProgressoCurso**: Acompanhamento de progresso em cursos
-8. **Notificacao**: Sistema de alertas e notificações
+5. **Candidatura**: Sistema de candidaturas com status, carta de apresentação e observações
+6. **Mensagem**: Sistema de mensagens entre usuários (com campo match opcional)
+7. **Curso**: Catálogo de cursos disponíveis
+8. **ProgressoCurso**: Acompanhamento de progresso em cursos
+9. **Notificacao**: Sistema de alertas e notificações
 
 ## Algoritmo de Matching Inteligente
 
@@ -90,17 +91,34 @@ O sistema calcula um score de compatibilidade (0-100) baseado em:
 - 50% do requisito: 10 pontos
 - Menos que 50%: 5 pontos
 
-### 4. Salário (20 pontos)
-- Pretensão dentro da faixa: 20 pontos
+### 4. Salário (15 pontos)
+- Pretensão dentro da faixa: 15 pontos
 - Até 20% acima do máximo: 10 pontos
-- Sem informação salarial: 10 pontos (neutro)
+- Sem informação salarial: 8 pontos (neutro)
+
+**Configuração de Pesos**:
+Os pesos são configuráveis via `settings.MATCHING_WEIGHTS`:
+```python
+MATCHING_WEIGHTS = {
+    'habilidades': 40,
+    'experiencia': 25,
+    'localizacao': 20,
+    'salario': 15,
+}
+```
+O sistema valida automaticamente os pesos e usa valores padrão se inválidos.
 
 ## APIs Disponíveis
 
-### Matching
+### Matching e Candidaturas
 - `GET /api/matches/candidato/<id>/` - Matches para um candidato
 - `GET /api/matches/vaga/<id>/` - Candidatos compatíveis para uma vaga
-- `POST /api/vaga/<id>/aplicar/` - Aplicar para uma vaga
+- `POST /api/vagas/<vaga_id>/candidatar/` - Aplicar para uma vaga
+  - Body (opcional): `{"carta_apresentacao": "..."}`
+  - Retorna: `{"sucesso": true, "candidatura_id": 123, "status": "pendente"}`
+- `POST /api/candidaturas/<id>/atualizar/` - Atualizar status de candidatura (empresa)
+  - Body: `{"status": "aprovada", "observacoes": "..."}`
+  - Status válidos: `pendente`, `em_analise`, `aprovada`, `recusada`
 - `GET /api/meus-matches/` - Matches do candidato logado
 
 ### Chat IA
@@ -163,18 +181,19 @@ openai>=1.58.1
 
 ## Histórico de Mudanças Recentes
 
-### 2025-11-19: Implementação Completa do Sistema
+### 2025-11-19: Sistema Completo e Robusto - Versão Final
 - ✅ **PostgreSQL**: Migração para banco de dados PostgreSQL em produção
-- ✅ **Autenticação**: Sistema completo de login/cadastro com validação
-- ✅ **Dashboards Funcionais**: Implementação de todos os dashboards
-- ✅ **Formulários Validados**: Validação completa de todos os formulários
-- ✅ **Integração OpenAI**: Chat IA com assistente de carreira
-- ✅ **Sistema de Notificações**: Modelo de notificações e API
-- ✅ **Sistema de Mensagens**: Mensagens entre usuários com notificações
-- ✅ **Gestão de Cursos**: Sistema de cursos com progresso
-- ✅ **Área Administrativa**: Painel admin com estatísticas e filtros
-- ✅ **Proteção de Rotas**: Login required em todas as páginas privadas
-- ✅ **Redirecionamento Inteligente**: Baseado no tipo de usuário
+- ✅ **Modelo Candidatura**: Sistema completo de candidaturas com status, cartas e observações
+- ✅ **Matching Configurável**: Pesos parametrizados em settings com validação robusta
+- ✅ **Algoritmo Null-Safe**: Proteção contra dados vazios em localização e salário
+- ✅ **APIs Validadas**: Validação completa de inputs, permissões e tratamento de erros
+- ✅ **Signals Robustos**: Guards contra crashes em notificações automáticas
+- ✅ **Sistema de Notificações**: Alertas inteligentes para matches, candidaturas e mensagens
+- ✅ **Dados de Exemplo**: Comando `criar_dados_exemplo` para popular banco com dados realistas
+- ✅ **Autenticação Completa**: Login/cadastro com validação e redirecionamento inteligente
+- ✅ **Dashboards Otimizados**: Queries eficientes com select_related/prefetch
+- ✅ **Chat IA**: Assistente virtual com OpenAI GPT-4o-mini
+- ✅ **Área Administrativa**: Painel completo para gerenciar plataforma
 
 ### 2025-11-18: Setup Inicial e Algoritmo de Matching
 - Configuração inicial do ambiente Replit
@@ -193,13 +212,31 @@ openai>=1.58.1
 8. 🔔 **Push Notifications**: Notificações em tempo real via WebSockets
 
 ## Notas de Desenvolvimento
-- O sistema usa sessões Django para autenticação
+
+### Segurança
 - Todas as senhas são hasheadas com PBKDF2
 - CSRF protection ativo em todos os formulários
 - XSS protection via templates Django
 - SQL injection prevenido via ORM
-- O chat IA usa o modelo GPT-4o-mini (econômico e eficiente)
-- Matches são gerados automaticamente ao criar vagas
+- Validação de permissões em todas as APIs (role-based access control)
+
+### Robustez
+- Algoritmo de matching null-safe para dados vazios
+- Pesos de matching validados automaticamente
+- Signals com guards para evitar crashes
+- APIs com validação completa de inputs
+- Tratamento de erros com códigos HTTP apropriados (400, 403, 404, 500)
+
+### Performance
+- Queries otimizadas com select_related/prefetch_related
+- Cache de contadores em dashboards
+- Índices de banco de dados em campos críticos
+- Matches gerados automaticamente ao criar vagas
+
+### IA
+- Chat usa modelo GPT-4o-mini (econômico e eficiente)
+- Sistema de tokens controlado
+- Prompts otimizados para carreira profissional
 
 ## Autor e Manutenção
 Projeto desenvolvido para conectar talentos com oportunidades de forma inteligente e eficiente.
