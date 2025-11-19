@@ -10,6 +10,23 @@
         <p class="text-gray-500 mt-1">Bem-vindo, {{ empresa.nome }}! Aqui está um resumo da sua atividade.</p>
     </div>
 
+    <!-- Ação Rápida -->
+    <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-4 mb-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800">Atualize o perfil da sua empresa</h3>
+                <p class="text-sm text-gray-600">Mantenha as informações atualizadas para atrair os melhores candidatos</p>
+            </div>
+        </div>
+        <a href="{% url 'editar_perfil_empresa' %}" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition flex items-center gap-2">
+            <i data-lucide="edit" class="w-4 h-4"></i>
+            Editar Perfil
+        </a>
+    </div>
+
     <!-- Grid de Métricas -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 

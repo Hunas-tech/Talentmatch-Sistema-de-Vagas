@@ -10,6 +10,23 @@
 {% endblock %}
 
 {% block content %}
+<!-- Ação Rápida -->
+<div class="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4 mb-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <i data-lucide="user-cog" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+            <h3 class="font-semibold text-gray-800">Complete seu perfil</h3>
+            <p class="text-sm text-gray-600">Atualize suas informações para encontrar as melhores vagas</p>
+        </div>
+    </div>
+    <a href="{% url 'editar_perfil_candidato' %}" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+        <i data-lucide="edit" class="w-4 h-4"></i>
+        Editar Perfil
+    </a>
+</div>
+
 <!-- Cards de Estatísticas -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <div class="stat-card">
