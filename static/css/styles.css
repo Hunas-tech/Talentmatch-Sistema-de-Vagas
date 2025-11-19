@@ -4,18 +4,32 @@
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
-  /* Cores Primárias */
-  --color-primary: #3B82F6;
-  --color-primary-dark: #2563EB;
-  --color-primary-light: #60A5FA;
+  /* Cores Primárias - Azul Vibrante */
+  --color-primary: #2563EB;
+  --color-primary-dark: #1E40AF;
+  --color-primary-light: #3B82F6;
   --color-primary-lighter: #DBEAFE;
+  --color-primary-gradient: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
   
-  /* Cores Secundárias */
-  --color-secondary: #8B5CF6;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-danger: #EF4444;
-  --color-info: #06B6D4;
+  /* Cores Secundárias - Roxo Moderno */
+  --color-secondary: #7C3AED;
+  --color-secondary-dark: #6D28D9;
+  --color-secondary-light: #A78BFA;
+  --color-secondary-lighter: #EDE9FE;
+  
+  /* Cores de Acento */
+  --color-accent: #EC4899;
+  --color-accent-light: #F9A8D4;
+  
+  /* Cores de Status */
+  --color-success: #059669;
+  --color-success-light: #D1FAE5;
+  --color-warning: #D97706;
+  --color-warning-light: #FEF3C7;
+  --color-danger: #DC2626;
+  --color-danger-light: #FEE2E2;
+  --color-info: #0891B2;
+  --color-info-light: #CFFAFE;
   
   /* Tons de Cinza */
   --color-gray-50: #F9FAFB;
@@ -228,23 +242,58 @@ html {
 
 /* Card de estatística */
 .stat-card {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: var(--color-primary-gradient);
   color: white;
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
 }
 
 .stat-card-value {
   font-size: 2.25rem;
   font-weight: 800;
   line-height: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .stat-card-label {
   font-size: 0.875rem;
   opacity: 0.9;
   margin-top: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Variantes de cor para stat-cards */
+.stat-card-secondary {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+}
+
+.stat-card-success {
+  background: linear-gradient(135deg, #10B981 0%, var(--color-success) 100%);
+}
+
+.stat-card-warning {
+  background: linear-gradient(135deg, #F59E0B 0%, var(--color-warning) 100%);
+}
+
+.stat-card-accent {
+  background: linear-gradient(135deg, #F472B6 0%, var(--color-accent) 100%);
 }
 
 /* --- 5. COMPONENTES DE FORMULÁRIO --- */
