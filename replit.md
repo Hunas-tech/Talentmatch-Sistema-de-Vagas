@@ -1,112 +1,205 @@
-# TalentMatch - Job Matching Platform
+# TalentMatch - Plataforma Inteligente de Matching de Vagas
 
-## Project Overview
-TalentMatch is a Django-based web application for job matching and recruitment. It's a talent management platform connecting candidates with companies through job postings, applications, and AI-assisted features.
+## Visão Geral do Projeto
+TalentMatch é uma plataforma web Django completa para matching inteligente entre candidatos e vagas de emprego. O sistema utiliza algoritmos de compatibilidade, IA para orientação de carreira e oferece uma interface intuitiva e interativa para candidatos, empresas e administradores.
 
-## Project Structure
-- **Django Version**: 5.2.8
-- **Python Version**: 3.11
-- **Database**: SQLite (development)
-- **Language**: Portuguese (pt-br)
+## Tecnologias Utilizadas
+- **Django**: 5.2.8
+- **Python**: 3.11
+- **Banco de Dados**: PostgreSQL (Neon-backed via DATABASE_URL)
+- **IA**: OpenAI API (GPT-4o-mini) para chat inteligente
+- **Frontend**: TailwindCSS via CDN
+- **Idioma**: Português (pt-br)
 
-## Core Features
-- **Landing Page**: Public-facing homepage
-- **User Dashboards**: Separate dashboards for candidates, companies, and administrators
-- **Job Management**: Browse, search, and apply for job postings
-- **Company Area**: Post and manage job vacancies
-- **Admin Panel**: User, company, and job management with reporting
-- **Messaging**: Internal messaging system and AI chat
-- **Courses**: Training and course management with progress tracking
-- **Authentication**: Login/logout with role-based access
-- **Intelligent Matching**: Algorithm-based candidate-job matching with scoring (40% skills, 30% location, 20% experience, 10% salary)
+## Funcionalidades Principais
 
-## Project Architecture
+### Para Candidatos
+- ✅ **Cadastro e Login Completos**: Sistema de autenticação com validação de email e senha
+- ✅ **Dashboard Personalizado**: Visualização de matches, vagas recomendadas e estatísticas
+- ✅ **Perfil Detalhado**: Habilidades, experiência, escolaridade, pretensão salarial
+- ✅ **Explorar Vagas**: Filtros por cidade, tipo (remoto/presencial/híbrido) e nível
+- ✅ **Candidaturas**: Aplicar para vagas com score de compatibilidade em tempo real
+- ✅ **Chat com IA**: Assistente virtual para orientação de carreira
+- ✅ **Cursos**: Acesso a cursos com tracking de progresso
+- ✅ **Mensagens**: Sistema interno de mensagens com empresas
+- ✅ **Notificações**: Alertas de novos matches, vagas e mensagens
 
-### Applications
-- `core`: Main application containing all views, URLs, and templates
-- `talentmatch_project`: Django project settings and configuration
+### Para Empresas
+- ✅ **Cadastro com CNPJ**: Validação e registro de empresas
+- ✅ **Dashboard Empresarial**: Estatísticas de vagas e candidatos
+- ✅ **Cadastro de Vagas**: Criação de vagas com requisitos detalhados
+- ✅ **Matches Automáticos**: Sistema gera automaticamente candidatos compatíveis
+- ✅ **Gestão de Candidaturas**: Visualização de candidatos interessados
 
-### Key Directories
-- `templates/`: HTML templates for all pages
-- `static/css/`: Stylesheets
-- `core/`: Main app with models, views, URLs, and matching algorithm
-  - `models.py`: Database models
-  - `views.py`: View functions and API endpoints
-  - `matching.py`: Intelligent matching algorithm
-  - `admin.py`: Django admin configuration
-  - `urls.py`: URL routing
-- `talentmatch_project/`: Project configuration
+### Para Administradores
+- ✅ **Dashboard Administrativo**: Estatísticas completas da plataforma
+- ✅ **Gerenciar Usuários**: Listagem e busca de candidatos
+- ✅ **Gerenciar Empresas**: Controle de empresas cadastradas
+- ✅ **Gerenciar Vagas**: Filtros por status (aberta/fechada/pausada)
+- ✅ **Relatórios**: Análise de dados da plataforma
 
-### Database Models
-Currently using SQLite for development. The database includes:
-- **Candidato**: Candidate profiles with skills, experience, location, and salary expectations
-- **Empresa**: Company profiles with sector, location, and description
-- **Vaga**: Job postings with required skills, salary range, location, and type (remote/hybrid/on-site)
-- **Match**: Candidate-job matches with compatibility scores (0-100)
-- **Mensagem**: Internal messaging system
-- **Curso**: Training courses catalog
-- **ProgressoCurso**: Course progress tracking for candidates
+## Arquitetura do Projeto
 
-## Configuration
+### Estrutura de Diretórios
+```
+talentmatch_project/
+├── core/                    # App principal
+│   ├── models.py           # Modelos do banco de dados
+│   ├── views.py            # Views e APIs
+│   ├── urls.py             # Rotas da aplicação
+│   ├── matching.py         # Algoritmo de matching
+│   ├── admin.py            # Configuração do Django Admin
+│   └── migrations/         # Migrações do banco
+├── talentmatch_project/    # Configuração do projeto
+│   ├── settings.py         # Configurações Django
+│   ├── urls.py             # URLs principais
+│   └── wsgi.py             # Servidor WSGI
+├── templates/              # Templates HTML
+├── static/                 # Arquivos estáticos (CSS)
+├── manage.py               # CLI do Django
+└── pyproject.toml          # Dependências Python
+```
 
-### Development
-- Server runs on `0.0.0.0:5000`
-- Debug mode enabled
-- ALLOWED_HOSTS set to accept all hosts (for Replit proxy)
-- CSRF trusted origins configured for Replit domains
+### Modelos do Banco de Dados
+1. **Candidato**: Perfil completo do candidato com habilidades, experiência, localização
+2. **Empresa**: Dados da empresa (CNPJ, setor, descrição)
+3. **Vaga**: Vagas com requisitos, habilidades, salário, tipo de trabalho
+4. **Match**: Registro de compatibilidade candidato-vaga (score 0-100)
+5. **Mensagem**: Sistema de mensagens entre usuários
+6. **Curso**: Catálogo de cursos disponíveis
+7. **ProgressoCurso**: Acompanhamento de progresso em cursos
+8. **Notificacao**: Sistema de alertas e notificações
 
-### Deployment
-- Uses Gunicorn WSGI server
-- Configured for autoscale deployment
-- Production-ready settings in place
+## Algoritmo de Matching Inteligente
 
-## Running Locally
-The Django development server is configured to run automatically via the workflow:
+O sistema calcula um score de compatibilidade (0-100) baseado em:
+
+### 1. Habilidades (40 pontos)
+- Compara habilidades do candidato com as requeridas pela vaga
+- Porcentagem de match convertida em pontos
+
+### 2. Localização (20 pontos)
+- Mesma cidade: 20 pontos
+- Mesmo estado: 15 pontos
+- Vaga remota: 20 pontos (localização irrelevante)
+- Híbrido em outro estado: 5 pontos
+
+### 3. Experiência (20 pontos)
+- Atende requisito mínimo: 20 pontos
+- 70% do requisito: 15 pontos
+- 50% do requisito: 10 pontos
+- Menos que 50%: 5 pontos
+
+### 4. Salário (20 pontos)
+- Pretensão dentro da faixa: 20 pontos
+- Até 20% acima do máximo: 10 pontos
+- Sem informação salarial: 10 pontos (neutro)
+
+## APIs Disponíveis
+
+### Matching
+- `GET /api/matches/candidato/<id>/` - Matches para um candidato
+- `GET /api/matches/vaga/<id>/` - Candidatos compatíveis para uma vaga
+- `POST /api/vaga/<id>/aplicar/` - Aplicar para uma vaga
+- `GET /api/meus-matches/` - Matches do candidato logado
+
+### Chat IA
+- `POST /api/chat/ia/` - Conversar com assistente de carreira IA
+  - Body: `{"mensagem": "sua pergunta"}`
+  - Retorna: `{"sucesso": true, "resposta": "...", "tokens_usados": 123}`
+
+### Notificações
+- `GET /api/notificacoes/` - Listar notificações do usuário
+- `POST /api/notificacoes/<id>/ler/` - Marcar como lida
+
+### Mensagens
+- `POST /api/mensagens/enviar/` - Enviar mensagem
+  - Body: `{"destinatario_id": 1, "assunto": "...", "conteudo": "..."}`
+- `POST /api/mensagens/<id>/marcar-lida/` - Marcar como lida
+
+## Configuração e Variáveis de Ambiente
+
+### Variáveis Obrigatórias
+- `DATABASE_URL` - URL de conexão PostgreSQL (configurado automaticamente)
+- `OPENAI_API_KEY` - Chave da API OpenAI para chat IA
+
+### Configurações do Django
+- `DEBUG = True` (desenvolvimento)
+- `ALLOWED_HOSTS = ['*']` (para proxy do Replit)
+- `CSRF_TRUSTED_ORIGINS` - Domínios Replit permitidos
+- `LANGUAGE_CODE = 'pt-br'`
+- `TIME_ZONE = 'America/Sao_Paulo'`
+
+## Como Executar
+
+### Desenvolvimento
+O servidor inicia automaticamente via workflow:
 ```bash
 python manage.py runserver 0.0.0.0:5000
 ```
 
-## Dependencies
-- django==5.2.8
-- gunicorn==23.0.0
-- asgiref==3.10.0
-- sqlparse==0.5.3
+### Migrações
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
 
-## Matching API Endpoints
-The platform provides REST API endpoints for matching:
-- `GET /api/matches/candidato/<id>/` - Generate and retrieve matches for a candidate
-- `GET /api/matches/vaga/<id>/` - Generate and retrieve matches for a job posting
-- `POST /api/vaga/<id>/aplicar/` - Apply to a job posting
-- `GET /api/meus-matches/` - Get matches for logged-in candidate
+### Criar Superusuário
+```bash
+python manage.py createsuperuser
+```
 
-### Matching Algorithm
-The matching score (0-100) is calculated based on:
-- **Skills Match (40%)**: Percentage of required skills that candidate possesses
-- **Location Match (30%)**: Same city (30pts), same state (15pts), remote (30pts)
-- **Experience Match (20%)**: Years of experience vs. minimum required
-- **Salary Match (10%)**: Alignment between candidate expectation and job offer
+### Admin Panel
+Acesse `/gerenciador/` para o painel administrativo do Django
 
-## Recent Changes
-- **2025-11-18**: Initial project import and Replit environment setup
-  - Installed Python 3.11 and Django
-  - Configured settings for Replit environment (ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS)
-  - Created workflow for development server on port 5000
-  - Configured deployment with Gunicorn
-  - Applied database migrations
-  - Fixed CSS loading: Added {% load static %} and CSS links to all templates
-  - Created .gitignore file for Python/Django projects
-  - Fixed navigation redirects:
-    - Updated cadastro view to redirect to dashboard_candidato after submission
-    - Updated cadastro_empresa view to redirect to dashboard_empresa after submission
-    - Updated login_view to redirect to dashboard_candidato after login
-    - Fixed all landing page links to use proper Django URL tags
-    - Corrected all navigation links throughout the application
+## Dependências
+```
+django>=5.2.8
+gunicorn>=23.0.0
+psycopg2-binary>=2.9.10
+dj-database-url>=2.3.0
+openai>=1.58.1
+```
 
-- **2025-11-18**: Database and Matching System Implementation
-  - Created complete database schema with 7 models (Candidato, Empresa, Vaga, Match, Mensagem, Curso, ProgressoCurso)
-  - Implemented intelligent matching algorithm in `core/matching.py`
-  - Created 4 API endpoints for matching functionality
-  - Updated views to save candidate and company registrations to database
-  - Registered all models in Django admin panel
-  - Fixed bug in skills scoring to filter empty strings correctly
-  - Tested matching with sample data showing accurate score calculations
+## Histórico de Mudanças Recentes
+
+### 2025-11-19: Implementação Completa do Sistema
+- ✅ **PostgreSQL**: Migração para banco de dados PostgreSQL em produção
+- ✅ **Autenticação**: Sistema completo de login/cadastro com validação
+- ✅ **Dashboards Funcionais**: Implementação de todos os dashboards
+- ✅ **Formulários Validados**: Validação completa de todos os formulários
+- ✅ **Integração OpenAI**: Chat IA com assistente de carreira
+- ✅ **Sistema de Notificações**: Modelo de notificações e API
+- ✅ **Sistema de Mensagens**: Mensagens entre usuários com notificações
+- ✅ **Gestão de Cursos**: Sistema de cursos com progresso
+- ✅ **Área Administrativa**: Painel admin com estatísticas e filtros
+- ✅ **Proteção de Rotas**: Login required em todas as páginas privadas
+- ✅ **Redirecionamento Inteligente**: Baseado no tipo de usuário
+
+### 2025-11-18: Setup Inicial e Algoritmo de Matching
+- Configuração inicial do ambiente Replit
+- Implementação do algoritmo de matching
+- Criação de 7 modelos principais
+- APIs RESTful para matching
+
+## Próximos Passos Sugeridos
+1. 🎨 **UI/UX**: Melhorar design e responsividade dos templates
+2. 📧 **Email**: Sistema de emails para recuperação de senha
+3. 📊 **Analytics**: Dashboard com gráficos e estatísticas avançadas
+4. 🔍 **Busca Avançada**: Elasticsearch ou busca full-text
+5. 📱 **PWA**: Transformar em Progressive Web App
+6. 🤖 **ML**: Melhorar matching com machine learning
+7. 📄 **PDF**: Geração de currículos em PDF
+8. 🔔 **Push Notifications**: Notificações em tempo real via WebSockets
+
+## Notas de Desenvolvimento
+- O sistema usa sessões Django para autenticação
+- Todas as senhas são hasheadas com PBKDF2
+- CSRF protection ativo em todos os formulários
+- XSS protection via templates Django
+- SQL injection prevenido via ORM
+- O chat IA usa o modelo GPT-4o-mini (econômico e eficiente)
+- Matches são gerados automaticamente ao criar vagas
+
+## Autor e Manutenção
+Projeto desenvolvido para conectar talentos com oportunidades de forma inteligente e eficiente.

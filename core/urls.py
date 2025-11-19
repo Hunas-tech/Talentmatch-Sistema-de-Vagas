@@ -56,4 +56,15 @@ urlpatterns = [
     path('api/matches/vaga/<int:vaga_id>/', views.api_gerar_matches_vaga, name='api_matches_vaga'),
     path('api/vaga/<int:vaga_id>/aplicar/', views.api_aplicar_vaga, name='api_aplicar_vaga'),
     path('api/meus-matches/', views.api_meus_matches, name='api_meus_matches'),
+    
+# API do Chat IA
+    path('api/chat/ia/', views.api_chat_ia, name='api_chat_ia'),
+    
+# API de Notificações
+    path('api/notificacoes/', views.api_notificacoes, name='api_notificacoes'),
+    path('api/notificacoes/<int:id>/ler/', views.api_marcar_notificacao_lida, name='api_marcar_notificacao_lida'),
+    
+# API de Mensagens
+    path('api/mensagens/enviar/', views.api_enviar_mensagem, name='api_enviar_mensagem'),
+    path('api/mensagens/<int:id>/marcar-lida/', views.api_marcar_mensagem_lida, name='api_marcar_mensagem_lida'),
 ]

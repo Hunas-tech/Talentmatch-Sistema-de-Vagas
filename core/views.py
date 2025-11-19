@@ -3,12 +3,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError
-from .models import Candidato, Empresa, Vaga, Match, Curso, ProgressoCurso
+from .models import Candidato, Empresa, Vaga, Match, Curso, ProgressoCurso, Notificacao, Mensagem
 from .matching import gerar_matches_para_candidato, gerar_matches_para_vaga, calcular_compatibilidade
 from datetime import datetime
+import os
+import json
+from openai import OpenAI
 
 
 # ===============================
@@ -108,13 +112,33 @@ def analise(request):
 
 # ----- 📬 Mensagens e Chat -----
 
+@login_required(login_url='login')
 def caixa_mensagens(request):
-    """Caixa de mensagens do candidato."""
-    return render(request, 'mensagens.html')
+    """Caixa de mensagens funcional."""
+    mensagens_recebidas = Mensagem.objects.filter(
+        destinatario=request.user
+    ).select_related('remetente').order_by('-criado_em')
+    
+    mensagens_enviadas = Mensagem.objects.filter(
+        remetente=request.user
+    ).select_related('destinatario').order_by('-criado_em')
+    
+    context = {
+        'mensagens_recebidas': mensagens_recebidas[:20],
+        'mensagens_enviadas': mensagens_enviadas[:20],
+        'nao_lidas': mensagens_recebidas.filter(lida=False).count(),
+    }
+    return render(request, 'mensagens.html', context)
 
+@login_required(login_url='login')
 def chat_ia(request):
-    """Chat com IA do candidato."""
-    return render(request, 'chat_ia.html')
+    """Chat com IA usando OpenAI."""
+    try:
+        candidato = request.user.candidato
+        context = {'candidato': candidato}
+        return render(request, 'chat_ia.html', context)
+    except:
+        return render(request, 'chat_ia.html')
 
 
 # ----- 💼 Vagas -----
@@ -190,13 +214,50 @@ def detalhe_vaga(request, id):
 
 # ----- 🎓 Cursos -----
 
+@login_required(login_url='login')
 def cursos(request):
-    """Lista de cursos disponíveis."""
-    return render(request, 'cursos.html')
+    """Lista de cursos disponíveis com recomendações."""
+    try:
+        candidato = request.user.candidato
+        cursos_disponiveis = Curso.objects.all().order_by('-criado_em')
+        cursos_em_andamento = ProgressoCurso.objects.filter(
+            candidato=candidato,
+            concluido=False
+        ).select_related('curso')
+        
+        context = {
+            'cursos': cursos_disponiveis,
+            'cursos_em_andamento': cursos_em_andamento,
+            'candidato': candidato,
+        }
+        return render(request, 'cursos.html', context)
+    except:
+        cursos_disponiveis = Curso.objects.all().order_by('-criado_em')
+        return render(request, 'cursos.html', {'cursos': cursos_disponiveis})
 
+@login_required(login_url='login')
 def progre_cursos(request):
     """Progresso em cursos realizados."""
-    return render(request, 'progre_cursos.html')
+    try:
+        candidato = request.user.candidato
+        progressos = ProgressoCurso.objects.filter(
+            candidato=candidato
+        ).select_related('curso').order_by('-iniciado_em')
+        
+        concluidos = progressos.filter(concluido=True)
+        em_andamento = progressos.filter(concluido=False)
+        
+        context = {
+            'progressos': progressos,
+            'concluidos': concluidos,
+            'em_andamento': em_andamento,
+            'total_cursos': progressos.count(),
+            'total_concluidos': concluidos.count(),
+        }
+        return render(request, 'progre_cursos.html', context)
+    except:
+        messages.error(request, 'Perfil de candidato não encontrado.')
+        return redirect('login')
 
 
 # ----- ⚙️ Configurações -----
@@ -339,21 +400,96 @@ def cadastrar_vaga(request):
 # 🧑‍💼 ÁREA ADMINISTRATIVA
 # ===============================
 
+@login_required(login_url='login')
 def dashboard_admin(request):
-    """Painel principal do administrador."""
-    return render(request, 'dashboard_admin.html')
+    """Painel principal do administrador com estatísticas."""
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('landing')
+    
+    total_candidatos = Candidato.objects.count()
+    total_empresas = Empresa.objects.count()
+    total_vagas = Vaga.objects.count()
+    vagas_abertas = Vaga.objects.filter(status='aberta').count()
+    total_matches = Match.objects.count()
+    matches_ativos = Match.objects.filter(status='pendente').count()
+    
+    candidatos_recentes = Candidato.objects.order_by('-criado_em')[:5]
+    empresas_recentes = Empresa.objects.order_by('-criado_em')[:5]
+    vagas_recentes = Vaga.objects.select_related('empresa').order_by('-criado_em')[:5]
+    
+    context = {
+        'total_candidatos': total_candidatos,
+        'total_empresas': total_empresas,
+        'total_vagas': total_vagas,
+        'vagas_abertas': vagas_abertas,
+        'total_matches': total_matches,
+        'matches_ativos': matches_ativos,
+        'candidatos_recentes': candidatos_recentes,
+        'empresas_recentes': empresas_recentes,
+        'vagas_recentes': vagas_recentes,
+    }
+    return render(request, 'dashboard_admin.html', context)
 
+@login_required(login_url='login')
 def gerenciar_usuarios(request):
-    """Página de gerenciamento de usuários (candidatos)."""
-    return render(request, 'gerenciar_usuarios.html')
+    """Página de gerenciamento de usuários (candidatos) com filtros."""
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('landing')
+    
+    candidatos = Candidato.objects.all().select_related('user').order_by('-criado_em')
+    
+    busca = request.GET.get('busca', '')
+    if busca:
+        candidatos = candidatos.filter(nome__icontains=busca) | candidatos.filter(email__icontains=busca)
+    
+    context = {
+        'candidatos': candidatos[:100],
+        'total': candidatos.count(),
+        'busca': busca,
+    }
+    return render(request, 'gerenciar_usuarios.html', context)
 
+@login_required(login_url='login')
 def gerenciar_empresas(request):
-    """Página de gerenciamento de empresas cadastradas."""
-    return render(request, 'gerenciar_empresas.html')
+    """Página de gerenciamento de empresas com filtros."""
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('landing')
+    
+    empresas = Empresa.objects.all().select_related('user').order_by('-criado_em')
+    
+    busca = request.GET.get('busca', '')
+    if busca:
+        empresas = empresas.filter(nome__icontains=busca) | empresas.filter(cnpj__icontains=busca)
+    
+    context = {
+        'empresas': empresas[:100],
+        'total': empresas.count(),
+        'busca': busca,
+    }
+    return render(request, 'gerenciar_empresas.html', context)
 
+@login_required(login_url='login')
 def gerenciar_vagas(request):
-    """Página de gerenciamento de vagas cadastradas."""
-    return render(request, 'gerenciar_vagas.html')
+    """Página de gerenciamento de vagas com filtros."""
+    if not request.user.is_staff:
+        messages.error(request, 'Acesso restrito a administradores.')
+        return redirect('landing')
+    
+    vagas = Vaga.objects.all().select_related('empresa').order_by('-criado_em')
+    
+    status_filtro = request.GET.get('status', '')
+    if status_filtro:
+        vagas = vagas.filter(status=status_filtro)
+    
+    context = {
+        'vagas': vagas[:100],
+        'total': vagas.count(),
+        'status_filtro': status_filtro,
+    }
+    return render(request, 'gerenciar_vagas.html', context)
 
 def painel_denuncias(request):
     """Painel de denúncias pendentes."""
@@ -637,3 +773,182 @@ def api_meus_matches(request):
         ]
     }
     return JsonResponse(data)
+
+
+# ===============================
+# 🤖 API DO CHAT COM IA
+# ===============================
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_chat_ia(request):
+    """
+    API: Chat com IA usando OpenAI
+    POST /api/chat/ia/
+    Body: {"mensagem": "texto da mensagem"}
+    """
+    try:
+        data = json.loads(request.body)
+        mensagem_usuario = data.get('mensagem', '').strip()
+        
+        if not mensagem_usuario:
+            return JsonResponse({'error': 'Mensagem vazia'}, status=400)
+        
+        try:
+            candidato = request.user.candidato
+            perfil_contexto = f"""
+Você é um assistente de carreira inteligente do TalentMatch.
+Candidato: {candidato.nome}
+Habilidades: {candidato.habilidades}
+Experiência: {candidato.experiencia_anos} anos
+Área de interesse: {candidato.area_interesse}
+Escolaridade: {candidato.escolaridade}
+"""
+        except:
+            perfil_contexto = "Você é um assistente de carreira inteligente do TalentMatch."
+        
+        api_key = os.environ.get('OPENAI_API_KEY')
+        if not api_key:
+            return JsonResponse({'error': 'API key não configurada'}, status=500)
+        
+        client = OpenAI(api_key=api_key)
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": perfil_contexto + "\nAjude o candidato com orientação de carreira, dicas para entrevistas, sugestões de habilidades para desenvolver e análise de compatibilidade com vagas. Seja amigável, profissional e objetivo."},
+                {"role": "user", "content": mensagem_usuario}
+            ],
+            max_tokens=500,
+            temperature=0.7
+        )
+        
+        resposta_ia = response.choices[0].message.content
+        
+        return JsonResponse({
+            'sucesso': True,
+            'resposta': resposta_ia,
+            'tokens_usados': response.usage.total_tokens
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+# ===============================
+# 🔔 API DE NOTIFICAÇÕES
+# ===============================
+
+@require_http_methods(["GET"])
+@login_required(login_url='login')
+def api_notificacoes(request):
+    """
+    API: Retorna notificações do usuário
+    GET /api/notificacoes/
+    """
+    notificacoes = Notificacao.objects.filter(
+        usuario=request.user
+    ).order_by('-criado_em')[:20]
+    
+    data = {
+        'total': notificacoes.count(),
+        'nao_lidas': notificacoes.filter(lida=False).count(),
+        'notificacoes': [
+            {
+                'id': n.id,
+                'tipo': n.tipo,
+                'titulo': n.titulo,
+                'mensagem': n.mensagem,
+                'lida': n.lida,
+                'url': n.url,
+                'criado_em': n.criado_em.isoformat(),
+            }
+            for n in notificacoes
+        ]
+    }
+    return JsonResponse(data)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_marcar_notificacao_lida(request, id):
+    """
+    API: Marca uma notificação como lida
+    POST /api/notificacoes/<id>/ler/
+    """
+    try:
+        notificacao = Notificacao.objects.get(id=id, usuario=request.user)
+        notificacao.lida = True
+        notificacao.save()
+        return JsonResponse({'sucesso': True})
+    except Notificacao.DoesNotExist:
+        return JsonResponse({'error': 'Notificação não encontrada'}, status=404)
+
+
+# ===============================
+# 💬 API DE MENSAGENS
+# ===============================
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_enviar_mensagem(request):
+    """
+    API: Envia uma mensagem
+    POST /api/mensagens/enviar/
+    Body: {"destinatario_id": 1, "assunto": "...", "conteudo": "..."}
+    """
+    try:
+        data = json.loads(request.body)
+        destinatario_id = data.get('destinatario_id')
+        assunto = data.get('assunto', '').strip()
+        conteudo = data.get('conteudo', '').strip()
+        
+        if not all([destinatario_id, assunto, conteudo]):
+            return JsonResponse({'error': 'Campos obrigatórios faltando'}, status=400)
+        
+        destinatario = User.objects.get(id=destinatario_id)
+        
+        mensagem = Mensagem.objects.create(
+            remetente=request.user,
+            destinatario=destinatario,
+            assunto=assunto,
+            conteudo=conteudo
+        )
+        
+        Notificacao.objects.create(
+            usuario=destinatario,
+            tipo='mensagem',
+            titulo='Nova mensagem',
+            mensagem=f'{request.user.first_name} enviou uma mensagem: {assunto}',
+            url='/mensagens/'
+        )
+        
+        return JsonResponse({
+            'sucesso': True,
+            'mensagem_id': mensagem.id
+        })
+        
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Destinatário não encontrado'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@require_http_methods(["POST"])
+@login_required(login_url='login')
+def api_marcar_mensagem_lida(request, id):
+    """
+    API: Marca uma mensagem como lida
+    POST /api/mensagens/<id>/marcar-lida/
+    """
+    try:
+        mensagem = Mensagem.objects.get(id=id, destinatario=request.user)
+        mensagem.lida = True
+        mensagem.save()
+        return JsonResponse({'sucesso': True})
+    except Mensagem.DoesNotExist:
+        return JsonResponse({'error': 'Mensagem não encontrada'}, status=404)
