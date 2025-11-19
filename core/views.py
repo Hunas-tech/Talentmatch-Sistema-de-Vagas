@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError
 from .models import Candidato, Empresa, Vaga, Match, Candidatura, Curso, ProgressoCurso, Notificacao, Mensagem
 from .matching import gerar_matches_para_candidato, gerar_matches_para_vaga, calcular_compatibilidade
+from .forms import CandidatoPerfilForm, EmpresaPerfilForm
 from datetime import datetime
 import os
 import json
@@ -73,37 +74,43 @@ def dashboard_candidato(request):
 
 @login_required(login_url='login')
 def perfil_candidato(request):
-    """Página de perfil do candidato."""
+    """Página de perfil do candidato (visualização)."""
     try:
         candidato = request.user.candidato
     except:
         messages.error(request, 'Perfil não encontrado.')
         return redirect('dashboard_candidato')
     
-    if request.method == "POST":
-        candidato.nome = request.POST.get('nome', candidato.nome)
-        candidato.telefone = request.POST.get('telefone', candidato.telefone)
-        candidato.cidade = request.POST.get('cidade', candidato.cidade)
-        candidato.estado = request.POST.get('estado', candidato.estado)
-        candidato.habilidades = request.POST.get('habilidades', candidato.habilidades)
-        candidato.experiencia_anos = int(request.POST.get('experiencia_anos', 0) or 0)
-        candidato.escolaridade = request.POST.get('escolaridade', candidato.escolaridade)
-        candidato.area_interesse = request.POST.get('area_interesse', candidato.area_interesse)
-        
-        pretensao = request.POST.get('pretensao_salarial', '')
-        if pretensao:
-            try:
-                candidato.pretensao_salarial = float(pretensao)
-            except ValueError:
-                pass
-        
-        candidato.curriculo = request.POST.get('curriculo', candidato.curriculo)
-        candidato.save()
-        
-        messages.success(request, 'Perfil atualizado com sucesso!')
-        return redirect('perfil_candidato')
-    
     return render(request, 'perfil_candidato.html', {'candidato': candidato})
+
+
+@login_required(login_url='login')
+def editar_perfil_candidato(request):
+    """Edição completa de perfil do candidato com formulário estruturado."""
+    try:
+        candidato = request.user.candidato
+    except:
+        messages.error(request, 'Perfil de candidato não encontrado.')
+        return redirect('dashboard_candidato')
+    
+    if request.method == "POST":
+        form = CandidatoPerfilForm(request.POST, instance=candidato, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('dashboard_candidato')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{form.fields[field].label}: {error}')
+    else:
+        form = CandidatoPerfilForm(instance=candidato, user=request.user)
+    
+    context = {
+        'form': form,
+        'candidato': candidato,
+    }
+    return render(request, 'editar_perfil_candidato.html', context)
 
 def analise(request):
     """Página de análise de perfil do candidato."""
@@ -294,6 +301,36 @@ def dashboard_empresa(request):
         'mensagens_nao_lidas': mensagens_nao_lidas,
     }
     return render(request, 'dashboard_empresa.html', context)
+
+
+@login_required(login_url='login')
+def editar_perfil_empresa(request):
+    """Edição completa de perfil da empresa com formulário estruturado."""
+    try:
+        empresa = request.user.empresa
+    except:
+        messages.error(request, 'Perfil de empresa não encontrado.')
+        return redirect('dashboard_empresa')
+    
+    if request.method == "POST":
+        form = EmpresaPerfilForm(request.POST, instance=empresa, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil da empresa atualizado com sucesso!')
+            return redirect('dashboard_empresa')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{form.fields[field].label}: {error}')
+    else:
+        form = EmpresaPerfilForm(instance=empresa, user=request.user)
+    
+    context = {
+        'form': form,
+        'empresa': empresa,
+    }
+    return render(request, 'editar_perfil_empresa.html', context)
+
 
 def cadastro_empresa(request):
     """Página de cadastro funcional da empresa."""

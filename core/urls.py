@@ -14,6 +14,8 @@ urlpatterns = [
 
     # Perfil
     path('perfil/', views.perfil_candidato, name='perfil_candidato'),
+    path('editar-perfil/', views.editar_perfil_candidato, name='editar_perfil_candidato'),
+    path('empresa/editar-perfil/', views.editar_perfil_empresa, name='editar_perfil_empresa'),
 
     # Vagas
     path('vagas/', views.explorar_vagas, name='explorar_vagas'),
