@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Empresa | TalentMatch</title>
+    
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center gap-2">
+                    <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">TalentMatch</span>
+                </a>
+                
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-600">Já tem uma conta?</span>
+                    <a href="{% url 'login' %}" class="btn btn-outline">
+                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                        Entrar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-700 text-white py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                <i data-lucide="building-2" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Para Empresas</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Encontre os Melhores Talentos</h1>
+            <p class="text-xl text-purple-100 max-w-2xl mx-auto">
+                Cadastre sua empresa e tenha acesso a candidatos qualificados através do nosso sistema inteligente de matching
+            </p>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex gap-8" aria-label="Tabs">
+                <a href="{% url 'cadastro_candidato' %}" 
+                   class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 text-sm font-semibold flex items-center gap-2">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    Sou Candidato
+                </a>
+                <a href="{% url 'cadastro_empresa' %}" 
+                   class="border-b-2 border-purple-600 text-purple-600 py-4 px-1 text-sm font-semibold flex items-center gap-2">
+                    <i data-lucide="building-2" class="w-4 h-4"></i>
+                    Sou Empresa
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Formulário -->
+    <main class="py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                
+                <form action="" method="POST" enctype="multipart/form-data" class="space-y-10">
+                    {% csrf_token %}
+
+                    <!-- Dados da Empresa -->
+                    <section>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="building-2" class="w-5 h-5 text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Dados da Empresa</h3>
+                                <p class="text-sm text-gray-500">Informações básicas da sua organização</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="form-label">Nome da Empresa *</label>
+                                <input type="text" name="nome" required class="form-input" placeholder="Nome fantasia ou razão social">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="form-label">CNPJ *</label>
+                                <input type="text" name="cnpj" required class="form-input" placeholder="00.000.000/0000-00">
+                                <p class="form-help">Apenas números ou formatado</p>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Telefone *</label>
+                                <input type="tel" name="telefone" required class="form-input" placeholder="(00) 0000-0000">
+                            </div>
+
+                            <div>
+                                <label class="form-label">Email Corporativo *</label>
+                                <input type="email" name="email" required class="form-input" placeholder="contato@empresa.com.br">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="form-label">Setor de Atuação *</label>
+                                <select name="setor" required class="form-select">
+                                    <option value="">Selecione...</option>
+                                    <option value="Tecnologia">Tecnologia</option>
+                                    <option value="Saúde">Saúde</option>
+                                    <option value="Educação">Educação</option>
+                                    <option value="Financeiro">Financeiro</option>
+                                    <option value="Varejo">Varejo</option>
+                                    <option value="Indústria">Indústria</option>
+                                    <option value="Serviços">Serviços</option>
+                                    <option value="Construção">Construção</option>
+                                    <option value="Agronegócio">Agronegócio</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Site (opcional)</label>
+                                <input type="url" name="site" class="form-input" placeholder="https://www.empresa.com.br">
+                            </div>
+
+                            <div>
+                                <label class="form-label">Número de Funcionários</label>
+                                <select name="tamanho" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    <option value="1-10">1-10 funcionários</option>
+                                    <option value="11-50">11-50 funcionários</option>
+                                    <option value="51-200">51-200 funcionários</option>
+                                    <option value="201-500">201-500 funcionários</option>
+                                    <option value="500+">Mais de 500 funcionários</option>
+                                </select>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="form-label">Sobre a Empresa</label>
+                                <textarea name="descricao" class="form-textarea" rows="4" placeholder="Conte sobre sua empresa, cultura, missão e valores..."></textarea>
+                                <p class="form-help">Esta descrição será exibida para os candidatos</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Endereço -->
+                    <section>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Endereço</h3>
+                                <p class="text-sm text-gray-500">Localização da sede principal</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Cidade *</label>
+                                <input type="text" name="cidade" required class="form-input" placeholder="Cidade">
+                            </div>
+
+                            <div>
+                                <label class="form-label">Estado *</label>
+                                <select name="estado" required class="form-select">
+                                    <option value="">Selecione...</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Acesso -->
+                    <section>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="shield" class="w-5 h-5 text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Credenciais de Acesso</h3>
+                                <p class="text-sm text-gray-500">Defina uma senha segura</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Senha *</label>
+                                <input type="password" name="password" required class="form-input" placeholder="••••••••">
+                                <p class="form-help">Mínimo de 6 caracteres</p>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Confirmar Senha *</label>
+                                <input type="password" name="confirm_password" required class="form-input" placeholder="••••••••">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Termos -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" required class="w-5 h-5 text-purple-600 rounded mt-0.5">
+                            <span class="text-sm text-gray-700">
+                                Eu li e aceito os <a href="#" class="text-purple-600 hover:underline">Termos de Uso</a> e a 
+                                <a href="#" class="text-purple-600 hover:underline">Política de Privacidade</a> do TalentMatch
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="submit" class="btn btn-lg flex-1" style="background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%); color: white;">
+                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                            Cadastrar Empresa
+                        </button>
+                        <a href="{% url 'landing' %}" class="btn btn-outline btn-lg">
+                            Cancelar
+                        </a>
+                    </div>
+
+                    <p class="text-center text-sm text-gray-500">
+                        Ao se cadastrar, você poderá publicar vagas e encontrar os melhores talentos
+                    </p>
+                </form>
+            </div>
+
+            <!-- Benefícios -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="users" class="w-6 h-6 text-purple-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Candidatos Qualificados</h4>
+                    <p class="text-sm text-gray-600">Acesso a milhares de profissionais</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="target" class="w-6 h-6 text-pink-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Matching Inteligente</h4>
+                    <p class="text-sm text-gray-600">Encontre o candidato perfeito</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="rocket" class="w-6 h-6 text-blue-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Processo Ágil</h4>
+                    <p class="text-sm text-gray-600">Contrate mais rápido</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Minhas Candidaturas{% endblock %}
+
+{% block page_title %}Minhas Candidaturas{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="bg-white p-6 rounded-2xl subtle-shadow mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Acompanhe as suas Candidaturas</h2>
+        <p class="text-gray-500 mt-1">Veja o estado e o progresso de cada processo seletivo.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl subtle-shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Vaga</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Empresa</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Data da Candidatura</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Progresso</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-slate-200">
+                {% if matches %}
+                    {% for match in matches %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{% url 'detalhe_vaga' id=match.vaga.id %}" class="text-sm font-semibold text-gray-900 hover:text-primary-blue">{{ match.vaga.titulo }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{% if match.vaga.empresa %}{{ match.vaga.empresa.nome }}{% else %}Empresa{% endif %}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ match.criado_em|date:"d/m/Y" }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                    {% if match.status == 'pendente' %}
+                                        <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 25%;"></div>
+                                    {% elif match.status == 'entrevista' %}
+                                        <div class="bg-primary-blue h-2.5 rounded-full" style="width: 50%;"></div>
+                                    {% elif match.status == 'aceito' %}
+                                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%;"></div>
+                                    {% elif match.status == 'contratado' %}
+                                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%;"></div>
+                                    {% else %}
+                                        <div class="bg-red-500 h-2.5 rounded-full" style="width: 10%;"></div>
+                                    {% endif %}
+                                </div>
+                                <span class="text-sm font-semibold {% if match.status == 'contratado' %}text-green-600{% elif match.status == 'entrevista' %}text-primary-blue{% elif match.status == 'recusado' %}text-red-600{% else %}text-yellow-600{% endif %} w-28 text-right">
+                                    {{ match.get_status_display }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center">
+                            <div class="text-gray-400">
+                                <i data-lucide="inbox" class="w-16 h-16 mx-auto mb-4"></i>
+                                <p class="text-lg font-medium text-gray-500 mb-2">Nenhuma candidatura ainda</p>
+                                <p class="text-sm text-gray-400">Explore vagas e candidate-se para vê-las aqui</p>
+                                <a href="{% url 'explorar_vagas' %}" class="inline-block mt-4 px-6 py-2 bg-primary-blue text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                                    Explorar Vagas
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastrar Nova Vaga | TalentMatch{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-6">
+        <a href="{% url 'dashboard_empresa' %}" class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+            Voltar ao Dashboard
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-6">
+            <h1 class="text-3xl font-bold text-white flex items-center gap-3">
+                <i data-lucide="briefcase" class="w-8 h-8"></i>
+                Cadastrar Nova Vaga
+            </h1>
+            <p class="text-purple-100 mt-2">Encontre os melhores talentos para sua empresa</p>
+        </div>
+
+        <form method="post" class="p-8 space-y-8">
+            {% csrf_token %}
+            
+            {% if messages %}
+                {% for message in messages %}
+                <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-50 border border-green-200 text-green-800{% else %}bg-red-50 border border-red-200 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-5 h-5 text-purple-600"></i>
+                    Informações Básicas
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.titulo.label }}
+                        </label>
+                        {{ form.titulo }}
+                        {% if form.titulo.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.titulo.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.descricao.label }}
+                        </label>
+                        {{ form.descricao }}
+                        {% if form.descricao.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.descricao.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.requisitos.label }}
+                        </label>
+                        {{ form.requisitos }}
+                        {% if form.requisitos.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.requisitos.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.habilidades_necessarias.label }}
+                        </label>
+                        {{ form.habilidades_necessarias }}
+                        {% if form.habilidades_necessarias.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.habilidades_necessarias.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="target" class="w-5 h-5 text-purple-600"></i>
+                    Detalhes da Vaga
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.nivel.label }}
+                        </label>
+                        {{ form.nivel }}
+                        {% if form.nivel.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.nivel.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.tipo.label }}
+                        </label>
+                        {{ form.tipo }}
+                        {% if form.tipo.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.tipo.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.cidade.label }}
+                        </label>
+                        {{ form.cidade }}
+                        {% if form.cidade.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.cidade.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.estado.label }}
+                        </label>
+                        {{ form.estado }}
+                        {% if form.estado.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.estado.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.experiencia_minima.label }}
+                        </label>
+                        {{ form.experiencia_minima }}
+                        {% if form.experiencia_minima.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.experiencia_minima.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.status.label }}
+                        </label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.status.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="dollar-sign" class="w-5 h-5 text-purple-600"></i>
+                    Remuneração
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.salario_min.label }}
+                        </label>
+                        {{ form.salario_min }}
+                        {% if form.salario_min.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.salario_min.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.salario_max.label }}
+                        </label>
+                        {{ form.salario_max }}
+                        {% if form.salario_max.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.salario_max.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-md flex items-center justify-center gap-2">
+                    <i data-lucide="check" class="w-5 h-5"></i>
+                    Cadastrar Vaga
+                </button>
+                <a href="{% url 'dashboard_empresa' %}" class="flex-1 bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors text-center">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

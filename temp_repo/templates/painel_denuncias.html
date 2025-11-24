@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Denúncias - Ignoradas - TalentMatch!</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        :root {
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #374151;
+            --sidebar-text-hover: #111827;
+            --sidebar-active-bg: #e0e7ff;
+            --sidebar-active-text: #4f46e5;
+            --primary-blue: #4f46e5;
+            --primary-text-blue: #4f46e5;
+            --reason-gray-bg: #f3f4f6;
+            --reason-gray-text: #4b5563;
+        }
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-text-blue); }
+        .bg-sidebar { background-color: var(--sidebar-bg); }
+        .text-sidebar { color: var(--sidebar-text); }
+        .hover\:text-sidebar-hover:hover { color: var(--sidebar-text-hover); }
+        .bg-sidebar-active { background-color: var(--sidebar-active-bg); }
+        .text-sidebar-active { color: var(--sidebar-active-text); }
+        .hover\:bg-sidebar-hover:hover { background-color: #f3f4f6; }
+        .subtle-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .bg-reason-gray { background-color: var(--reason-gray-bg); }
+        .text-reason-gray { color: var(--reason-gray-text); }
+    </style>
+</head>
+<body class="flex h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-sidebar text-sidebar border-r border-gray-200 flex flex-col fixed h-full">
+        <div class="px-6 py-5">
+            <h1 class="text-2xl font-bold text-primary-blue">TalentMatch!</h1>
+        </div>
+
+        <nav class="flex-1 px-4 py-2 space-y-2">
+            <a href="{% url 'dashboard_admin' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span>Visão Geral</span>
+            </a>
+            <a href="" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span>Gerenciar Usuários</span>
+            </a>
+            <a href="{% url 'gerenciar_empresas' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="building-2" class="w-5 h-5"></i>
+                <span>Gerenciar Empresas</span>
+            </a>
+            <a href="{% url 'gerenciar_vagas' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+                <span>Gerenciar Vagas</span>
+            </a>
+            <!-- Ativo -->
+            <a href="{% url 'painel_denuncias' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-sidebar-active text-sidebar-active font-semibold">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                <span>Painel de Denúncias</span>
+            </a>
+            <a href="{% url 'relatorios' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                <span>Relatórios e Auditoria</span>
+            </a>
+            <a href="{% url 'config_admin' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+                <span>Configurações do Sistema</span>
+            </a>
+        </nav>
+
+        <div class="px-4 py-4 border-t border-gray-200">
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <div class="flex-1 ml-64 flex flex-col">
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <h2 class="text-2xl font-bold text-gray-800">Painel de Denúncias</h2>
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-semibold">AD</span>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-900">Carlos Pereira</p>
+                            <p class="text-xs text-gray-500">Administrador</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-white rounded-xl subtle-shadow">
+                    <div class="flex justify-between items-center px-6 py-5 border-b border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-medium text-gray-600">Status:</span>
+                            <!-- Botões com links Django -->
+                            <a href="{% url 'painel_denuncias' %}" class="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-full">Pendentes</a>
+                            <a href="{% url 'painel_denuncias_resolvidas' %}" class="px-3 py-1 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-full">Resolvidas</a>
+                            <a href="{% url 'painel_denuncias_ignoradas' %}" class="px-3 py-1 text-sm font-semibold text-white bg-primary-blue rounded-full">Ignoradas</a>
+                        </div>
+                    </div>
+
+                    <!-- Tabela -->
+                    <table class="w-full table-auto">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Denunciado</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Denunciante</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Motivo</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data da Análise</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-gray-900">Vaga: Designer UX/UI</p>
+                                    <p class="text-xs text-gray-500">Status: Nenhuma ação tomada</p>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Marcos Lima</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-reason-gray text-reason-gray">Denúncia sem fundamento</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">04/10/2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="flex justify-between items-center px-6 py-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-600">Mostrando <span class="font-semibold">1</span> de <span class="font-semibold">1</span> denúncia ignorada</p>
+                        <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium text-gray-400 bg-gray-50 border border-gray-200 rounded-md cursor-not-allowed">Anterior</button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-gray-400 bg-gray-50 border border-gray-200 rounded-md cursor-not-allowed">Próximo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
