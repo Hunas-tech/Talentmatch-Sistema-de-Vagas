@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalhe da Vaga{% endblock %}
+
+{% block page_title %}Detalhe da Vaga{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-8 overflow-y-auto">
+    <div class="max-w-5xl mx-auto">
+        <!-- Cabeçalho da Vaga -->
+        <div class="bg-white p-8 rounded-2xl subtle-shadow mb-8">
+            <div class="flex flex-col md:flex-row gap-6">
+                <img src="https://placehold.co/80x80/2E5BFF/FFFFFF?text=TS" alt="Logo da Empresa" class="w-20 h-20 rounded-xl">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-bold text-gray-800">Desenvolvedor Frontend Pleno</h2>
+                    <div class="flex items-center gap-6 text-gray-500 mt-2 text-sm flex-wrap">
+                        <a href="#" class="font-semibold text-primary-blue hover:underline">TechSolutions</a>
+                        <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4"></i>Remoto</span>
+                        <span class="flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4"></i>CLT</span>
+                        <span class="flex items-center gap-2"><i data-lucide="dollar-sign" class="w-4 h-4"></i>R$ 6.000 - R$ 8.000</span>
+                    </div>
+                </div>
+                <div class="flex md:flex-col gap-2 md:items-end">
+                    <button class="w-full bg-primary-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-primary-dark-blue transition-colors">
+                        Candidatar-se
+                    </button>
+                    <button class="w-full bg-slate-100 text-slate-700 font-semibold py-3 px-6 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="bookmark" class="w-5 h-5"></i> Salvar Vaga
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo da Vaga -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Coluna Principal: Descrição -->
+            <div class="lg:col-span-2 bg-white p-8 rounded-2xl subtle-shadow">
+                 <div class="prose max-w-none prose-p:text-gray-600 prose-li:text-gray-600">
+                    <h3 class="text-xl font-bold text-gray-800">Descrição da Vaga</h3>
+                    <p>Estamos à procura de um Desenvolvedor Frontend Pleno, apaixonado por criar interfaces de utilizador intuitivas e de alta performance. Irá trabalhar num ambiente ágil, colaborando com designers e desenvolvedores backend para transformar ideias em realidade.</p>
+                    
+                    <h3 class="text-xl font-bold text-gray-800 mt-6">Responsabilidades</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Desenvolver e manter componentes de interface reutilizáveis e eficientes.</li>
+                        <li>Traduzir designs e wireframes em código de alta qualidade.</li>
+                        <li>Otimizar aplicações para máxima velocidade e escalabilidade.</li>
+                        <li>Colaborar com outros membros da equipa e stakeholders.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-gray-800 mt-6">Requisitos</h3>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li>Experiência comprovada com React, Vue.js ou Angular.</li>
+                        <li>Sólidos conhecimentos em HTML5, CSS3 e JavaScript (ES6+).</li>
+                        <li>Familiaridade com ferramentas de build (Webpack, Vite).</li>
+                        <li>Experiência com sistemas de controlo de versão (Git).</li>
+                        <li>Compreensão de princípios de design responsivo.</li>
+                    </ul>
+
+                     <h3 class="text-xl font-bold text-gray-800 mt-6">Diferenciais</h3>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li>Conhecimento em TypeScript.</li>
+                        <li>Experiência com testes unitários e de integração.</li>
+                        <li>Familiaridade com metodologias ágeis (Scrum, Kanban).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Coluna Lateral: Sobre a Empresa -->
+            <aside class="space-y-8">
+                <div class="bg-white p-8 rounded-2xl subtle-shadow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Sobre a TechSolutions</h3>
+                    <p class="text-sm text-gray-600 mb-4">A TechSolutions é uma empresa líder em inovação digital, focada em criar soluções de software que transformam negócios.</p>
+                    <div class="space-y-3 text-sm">
+                        <p class="flex items-center gap-2 text-gray-700"><i data-lucide="globe" class="w-4 h-4 text-gray-400"></i> techsolutions.com</p>
+                        <p class="flex items-center gap-2 text-gray-700"><i data-lucide="users" class="w-4 h-4 text-gray-400"></i> 51-200 funcionários</p>
+                        <p class="flex items-center gap-2 text-gray-700"><i data-lucide="lightbulb" class="w-4 h-4 text-gray-400"></i> Tecnologia e Inovação</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+{% endblock %}

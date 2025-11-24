@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil da Empresa | TalentMatch{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-6">
+        <a href="{% url 'dashboard_empresa' %}" class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+            Voltar ao Dashboard
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-6">
+            <h1 class="text-3xl font-bold text-white flex items-center gap-3">
+                <i data-lucide="building-2" class="w-8 h-8"></i>
+                Editar Perfil da Empresa
+            </h1>
+            <p class="text-purple-100 mt-2">Mantenha as informações da sua empresa atualizadas</p>
+        </div>
+
+        <form method="post" class="p-8 space-y-8">
+            {% csrf_token %}
+            
+            {% if messages %}
+                {% for message in messages %}
+                <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-50 border border-green-200 text-green-800{% else %}bg-red-50 border border-red-200 text-red-800{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="briefcase" class="w-5 h-5 text-purple-600"></i>
+                    Dados da Empresa
+                </h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.nome.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.nome }}
+                        {% if form.nome.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.nome.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                {{ form.cnpj.label }} <span class="text-red-500">*</span>
+                            </label>
+                            {{ form.cnpj }}
+                            <p class="mt-1 text-xs text-gray-500">CNPJ não pode ser alterado</p>
+                            {% if form.cnpj.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.cnpj.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                {{ form.setor.label }}
+                            </label>
+                            {{ form.setor }}
+                            {% if form.setor.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.setor.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.site.label }}
+                        </label>
+                        {{ form.site }}
+                        {% if form.site.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.site.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.endereco.label }}
+                        </label>
+                        {{ form.endereco }}
+                        {% if form.endereco.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.endereco.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="phone" class="w-5 h-5 text-purple-600"></i>
+                    Contato
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.user_email.label }} <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.user_email }}
+                        {% if form.user_email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.user_email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.telefone.label }}
+                        </label>
+                        {{ form.telefone }}
+                        {% if form.telefone.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.telefone.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-purple-600"></i>
+                    Localização
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.cidade.label }}
+                        </label>
+                        {{ form.cidade }}
+                        {% if form.cidade.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.cidade.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            {{ form.estado.label }}
+                        </label>
+                        {{ form.estado }}
+                        {% if form.estado.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.estado.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="pb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-5 h-5 text-purple-600"></i>
+                    Sobre a Empresa
+                </h2>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        {{ form.descricao.label }}
+                    </label>
+                    {{ form.descricao }}
+                    <p class="mt-1 text-xs text-gray-500">Descreva sua empresa, cultura, valores e o que a torna única</p>
+                    {% if form.descricao.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.descricao.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-6 border-t">
+                <a href="{% url 'dashboard_empresa' %}" class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition">
+                    Cancelar
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    Salvar Alterações
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

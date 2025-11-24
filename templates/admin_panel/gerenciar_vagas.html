@@ -1,0 +1,326 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título atualizado para a nova página -->
+    <title>Gerenciar Vagas - TalentMatch!</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Fundo geral cinza claro */
+        }
+        /* Cores personalizadas baseadas no design */
+        :root {
+            /* Cores do Sidebar (claras) */
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #374151; /* gray-700 */
+            --sidebar-text-hover: #111827; /* gray-900 */
+            --sidebar-active-bg: #e0e7ff; 
+            --sidebar-active-text: #4f46e5; 
+            
+            /* Cores dos Ícones e Elementos Principais */
+            --primary-blue: #4f46e5;
+            --primary-text-blue: #4f46e5;
+            
+            /* Cores dos Emblemas de Status (Gerenciar Empresas) */
+            --status-green-bg: #e7f8f0;
+            --status-green-text: #059669;
+            --status-orange-bg: #fffbeb;
+            --status-orange-text: #d97706; /* text-amber-600 */
+            --status-yellow-bg: #fefce8;
+            --status-yellow-text: #ca8a04; /* text-yellow-600 */
+
+            /* NOVAS Cores dos Emblemas de Status (Gerenciar Vagas) */
+            --status-blue-bg: #e0e7ff; /* bg-blue-100 (adaptado) */
+            --status-blue-text: #4f46e5; /* text-blue-700 (adaptado) */
+            
+            --status-paused-bg: #fefce8; /* bg-yellow-50 */
+            --status-paused-text: #ca8a04; /* text-yellow-600 */
+            
+            --status-closed-bg: #fee2e2; /* bg-red-100 */
+            --status-closed-text: #dc2626; /* text-red-600 */
+
+            --icon-blue-bg: #e0e7ff;
+            --icon-blue-text: #4f46e5;
+        }
+
+        /* Aplica as cores via classes */
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .text-primary-blue { color: var(--primary-text-blue); }
+        
+        /* Emblemas (Empresas) */
+        .bg-status-green { background-color: var(--status-green-bg); }
+        .text-status-green { color: var(--status-green-text); }
+        .bg-status-orange { background-color: var(--status-orange-bg); }
+        .text-status-orange { color: var(--status-orange-text); }
+        .bg-status-yellow { background-color: var(--status-yellow-bg); }
+        .text-status-yellow { color: var(--status-yellow-text); }
+
+        /* Emblemas (Vagas) */
+        .bg-status-blue { background-color: var(--status-blue-bg); }
+        .text-status-blue { color: var(--status-blue-text); }
+        .bg-status-paused { background-color: var(--status-paused-bg); }
+        .text-status-paused { color: var(--status-paused-text); }
+        .bg-status-closed { background-color: var(--status-closed-bg); }
+        .text-status-closed { color: var(--status-closed-text); }
+        
+        .bg-icon-blue { background-color: var(--icon-blue-bg); }
+        .text-icon-blue { color: var(--icon-blue-text); }
+
+        /* Cores do Sidebar */
+        .bg-sidebar { background-color: var(--sidebar-bg); }
+        .text-sidebar { color: var(--sidebar-text); }
+        .hover\:text-sidebar-hover:hover { color: var(--sidebar-text-hover); }
+        .bg-sidebar-active { background-color: var(--sidebar-active-bg); }
+        .text-sidebar-active { color: var(--sidebar-active-text); }
+        .hover\:bg-sidebar-hover:hover { background-color: #f3f4f6; } /* gray-100 */
+
+        /* Estilo para um sombreamento sutil */
+        .subtle-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Estilização para o input de pesquisa com ícone */
+        .search-input-container {
+            position: relative;
+        }
+        .search-input-container svg {
+            position: absolute;
+            left: 0.75rem; /* 12px */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af; /* gray-400 */
+        }
+        .search-input {
+            padding-left: 2.5rem; /* 40px */
+        }
+    </style>
+</head>
+<body class="flex h-screen">
+
+    <!-- Sidebar (Barra Lateral) -->
+    <aside class="w-64 bg-sidebar text-sidebar border-r border-gray-200 flex flex-col fixed h-full">
+        <!-- Logo -->
+        <div class="px-6 py-5">
+            <h1 class="text-2xl font-bold text-primary-blue">TalentMatch!</h1>
+        </div>
+        
+        <!-- Navegação -->
+        <nav class="flex-1 px-4 py-2 space-y-2">
+            <!-- Item Inativo -->
+            <a href="{% url 'dashboard_admin' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span>Visão Geral</span>
+            </a>
+            <!-- Item Inativo -->
+            <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span>Gerenciar Usuários</span>
+            </a>
+            <!-- Item Inativo -->
+            <a href="{% url 'gerenciar_empresas' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="building-2" class="w-5 h-5"></i>
+                <span>Gerenciar Empresas</span>
+            </a>
+            <!-- Item Ativo -->
+            <a href="{% url 'gerenciar_vagas' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-sidebar-active text-sidebar-active font-semibold">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+                <span>Gerenciar Vagas</span>
+            </a>
+            <!-- Itens Inativos -->
+            <a href="{% url 'painel_denuncias' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                <span>Painel de Denúncias</span>
+            </a>
+            <a href="{% url 'relatorios' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                <span>Relatórios e Auditoria</span>
+            </a>
+            <a href="{% url 'config_admin' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+                <span>Configurações do Sistema</span>
+            </a>
+        </nav>
+
+        <!-- Rodapé do Sidebar (Logout) -->
+        <div class="px-4 py-4 border-t border-gray-200">
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sidebar hover:text-sidebar-hover hover:bg-sidebar-hover transition-colors">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal (Direita) -->
+    <div class="flex-1 ml-64 flex flex-col">
+        <!-- Header (Cabeçalho Superior) -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Título da Página -->
+                    <div>
+                        <!-- Título atualizado -->
+                        <h2 class="text-2xl font-bold text-gray-800">Gerenciar Vagas</h2>
+                    </div>
+                    <!-- Perfil do Usuário -->
+                    <div class="flex items-center gap-3">
+                        <!-- Avatar do Admin (Admin Mestre, 'A') -->
+                        <span class="w-10 h-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-semibold">
+                            A
+                        </span>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-900">Admin Mestre</p>
+                            <p class="text-xs text-gray-500">Administrador</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main (Conteúdo da Página) -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="max-w-7xl mx-auto">
+                <!-- Card Principal da Tabela -->
+                <div class="bg-white rounded-xl subtle-shadow">
+                    <!-- Cabeçalho do Card: Pesquisa e Filtro -->
+                    <div class="flex justify-between items-center px-6 py-5 border-b border-gray-200">
+                        <!-- Pesquisa -->
+                        <div class="search-input-container">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                            <input type="text" placeholder="Buscar por vaga ou empresa..." class="search-input block w-80 rounded-md border-gray-300 shadow-sm focus:border-primary-blue focus:ring-primary-blue sm:text-sm">
+                        </div>
+                        <!-- Botão de Filtro -->
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            <i data-lucide="filter" class="w-4 h-4"></i>
+                            <span>Filtrar por status</span>
+                        </button>
+                    </div>
+
+                    <!-- Tabela de Vagas -->
+                    <table class="w-full table-auto">
+                        <!-- Cabeçalho da Tabela -->
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Titulo da Vaga</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Empresa</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Data de Publicação</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Candidaturas</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Ações</th>
+                            </tr>
+                        </thead>
+                        <!-- Corpo da Tabela -->
+                        <tbody class="divide-y divide-gray-200">
+                            <!-- Linha 1 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-gray-900">Desenvolvedor Frontend Pleno</p>
+                                    <p class="text-xs text-gray-500">Remoto</p>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">InovaTech Soluções</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">07/10/2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">42</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-blue text-status-blue">Ativa</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Linha 2 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-gray-900">Analista de Marketing Digital</p>
+                                    <p class="text-xs text-gray-500">São Paulo, SP</p>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Connecta Marketing</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">28/08/2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">128</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-blue text-status-blue">Ativa</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Linha 3 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-gray-900">Designer UX/UI Sênior</p>
+                                    <p class="text-xs text-gray-500">Híbrido</p>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Creative Minds Studio</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">15/08/2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">98</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-paused text-status-paused">Pausada</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Linha 4 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-gray-900">Estágio em Análise de Dados</p>
+                                    <p class="text-xs text-gray-500">Rio de Janeiro, RJ</p>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Data Analytics Inc.</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">05/08/2025</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">250</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-status-closed text-status-closed">Encerrada</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-primary-blue"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Rodapé do Card: Paginação -->
+                    <div class="flex justify-between items-center px-6 py-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-600">
+                            Mostrando <span class="font-semibold">1</span> a <span class="font-semibold">10</span> de <span class="font-semibold">312</span>
+                        </p>
+                        <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Anterior</button>
+                            <button class="px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Próximo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script para renderizar os ícones do Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

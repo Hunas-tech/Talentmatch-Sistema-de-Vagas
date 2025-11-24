@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perfil da Empresa | TalentMatch!{% endblock %}
+{% block page_title %}Perfil da Empresa{% endblock %}
+{% block page_subtitle %}Visualize e gerencie as informações da sua empresa{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <!-- Card Principal do Perfil -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-6">
+        <!-- Cabeçalho com Gradiente -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-12 text-white">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center gap-6">
+                    <div class="w-24 h-24 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-4xl font-bold">
+                        {{ empresa.nome.0|upper }}
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">{{ empresa.nome }}</h1>
+                        {% if empresa.setor %}
+                        <p class="text-purple-100 flex items-center gap-2">
+                            <i data-lucide="briefcase" class="w-4 h-4"></i>
+                            {{ empresa.setor }}
+                        </p>
+                        {% endif %}
+                        {% if empresa.cidade and empresa.estado %}
+                        <p class="text-purple-100 flex items-center gap-2 mt-1">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            {{ empresa.cidade }}, {{ empresa.estado }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <a href="{% url 'editar_perfil_empresa' %}" class="btn btn-white">
+                    <i data-lucide="edit" class="w-4 h-4"></i>
+                    Editar Perfil
+                </a>
+            </div>
+        </div>
+
+        <!-- Estatísticas Rápidas -->
+        <div class="grid grid-cols-3 gap-6 px-8 py-6 border-b border-gray-200">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-purple-600">{{ vagas_ativas }}</div>
+                <div class="text-sm text-gray-600 mt-1">Vagas Ativas</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-blue-600">{{ total_vagas }}</div>
+                <div class="text-sm text-gray-600 mt-1">Total de Vagas</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-green-600">{{ empresa.vagas.count }}</div>
+                <div class="text-sm text-gray-600 mt-1">Vagas Criadas</div>
+            </div>
+        </div>
+
+        <!-- Informações Detalhadas -->
+        <div class="p-8 space-y-8">
+            <!-- Sobre a Empresa -->
+            {% if empresa.descricao %}
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-5 h-5 text-purple-600"></i>
+                    Sobre a Empresa
+                </h3>
+                <p class="text-gray-700 leading-relaxed">{{ empresa.descricao }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Informações de Contato -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="phone" class="w-5 h-5 text-purple-600"></i>
+                    Informações de Contato
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% if empresa.user.email %}
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="mail" class="w-5 h-5 text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Email</p>
+                            <p class="text-sm font-medium text-gray-800">{{ empresa.user.email }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if empresa.telefone %}
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="phone" class="w-5 h-5 text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Telefone</p>
+                            <p class="text-sm font-medium text-gray-800">{{ empresa.telefone }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if empresa.site %}
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="globe" class="w-5 h-5 text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Website</p>
+                            <a href="{{ empresa.site }}" target="_blank" class="text-sm font-medium text-blue-600 hover:underline">{{ empresa.site }}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if empresa.cnpj %}
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="file-check" class="w-5 h-5 text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">CNPJ</p>
+                            <p class="text-sm font-medium text-gray-800">{{ empresa.cnpj }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Endereço -->
+            {% if empresa.endereco or empresa.cidade %}
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-purple-600"></i>
+                    Localização
+                </h3>
+                <div class="p-4 bg-gray-50 rounded-lg">
+                    {% if empresa.endereco %}
+                    <p class="text-gray-700">{{ empresa.endereco }}</p>
+                    {% endif %}
+                    {% if empresa.cidade and empresa.estado %}
+                    <p class="text-gray-700 mt-1">{{ empresa.cidade }} - {{ empresa.estado }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Ações Rápidas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="{% url 'cadastrar_vaga' %}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center text-center group">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-purple-200 transition">
+                <i data-lucide="plus-circle" class="w-6 h-6 text-purple-600"></i>
+            </div>
+            <h4 class="font-semibold text-gray-800 mb-1">Cadastrar Vaga</h4>
+            <p class="text-sm text-gray-600">Publique uma nova oportunidade</p>
+        </a>
+
+        <a href="{% url 'dashboard_empresa' %}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center text-center group">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-200 transition">
+                <i data-lucide="briefcase" class="w-6 h-6 text-blue-600"></i>
+            </div>
+            <h4 class="font-semibold text-gray-800 mb-1">Ver Minhas Vagas</h4>
+            <p class="text-sm text-gray-600">Gerencie suas oportunidades</p>
+        </a>
+
+        <a href="{% url 'listar_candidaturas_empresa' %}" class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition flex flex-col items-center text-center group">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-green-200 transition">
+                <i data-lucide="users" class="w-6 h-6 text-green-600"></i>
+            </div>
+            <h4 class="font-semibold text-gray-800 mb-1">Ver Candidatos</h4>
+            <p class="text-sm text-gray-600">Analise as candidaturas</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

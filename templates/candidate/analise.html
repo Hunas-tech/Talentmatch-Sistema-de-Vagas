@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação da Empresa - TalentMatch!</title>
+    <!-- Importa o Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importa a fonte Inter do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="flex h-screen">
+        
+        <!-- ========== Barra Lateral (Sidebar) ========== -->
+        <aside class="w-64 flex-shrink-0 bg-white shadow-lg">
+            <div class="p-6">
+                <!-- Logo -->
+                <h1 class="text-2xl font-bold text-blue-800">TalentMatch!</h1>
+            </div>
+            
+            <!-- Menu de Navegação -->
+            <nav class="mt-4 px-4">
+                <!-- Estado Ativo -->
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-white bg-blue-600 font-semibold rounded-lg shadow-sm">
+                    <!-- SVG Icon: Perfil (Building) -->
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 21V3m8.25 18V3M3 9h18M3 15h18" />
+                    </svg>
+                    <span>Perfil da Empresa</span>
+                </a>
+                <!-- Outros links (exemplo) -->
+                <!-- 
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="h-5 w-5" ...></svg>
+                    <span>Vagas Publicadas</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="h-5 w-5" ...></svg>
+                    <span>Candidatos</span>
+                </a>
+                -->
+            </nav>
+        </aside>
+
+        <!-- ========== Conteúdo Principal ========== -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <!-- Cabeçalho Superior -->
+            <header class="sticky top-0 bg-white shadow-sm p-4 flex justify-between items-center z-10 border-b border-gray-200">
+                <!-- Título da Página -->
+                <h2 class="text-2xl font-bold text-gray-900">
+                    Perfil da Empresa
+                </h2>
+                
+                <!-- Perfil da Empresa -->
+                <div class="flex items-center space-x-3 pr-4">
+                    <!-- Avatar da Empresa -->
+                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-purple-600 text-white font-semibold">
+                        CM
+                    </span>
+                    <!-- Nome e Tipo -->
+                    <div>
+                        <p class="font-semibold text-sm text-gray-900">Creative Minds</p>
+                        <p class="text-xs text-gray-500">Empresa</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo da Página -->
+            <main class="flex-1 p-8">
+                
+                <!-- Abas de Navegação (Tabs) -->
+                <div class="mb-8">
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <!-- Aba Inativa -->
+                            <a href="#" class="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+                                Informações da Empresa
+                            </a>
+                            <!-- Aba Ativa -->
+                            <a href="#" class="py-4 px-1 border-b-2 border-blue-600 text-blue-600 font-medium text-sm" aria-current="page">
+                                Verificação
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Cartão de Verificação -->
+                <div class="max-w-3xl mx-auto bg-white p-8 sm:p-10 rounded-xl shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-900 text-center">
+                        Verificação da Empresa
+                    </h3>
+                    <p class="mt-2 text-center text-gray-600">
+                        Envie os documentos para verificarmos a autenticidade da sua empresa e liberar a publicação de vagas.
+                    </p>
+
+                    <!-- Alerta de Status Pendente -->
+                    <div class="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-5 text-center">
+                        <p class="text-lg font-bold text-yellow-700">
+                            Status: Verificação Pendente
+                        </p>
+                        <p class="mt-1 text-sm text-yellow-600">
+                            Seus documentos foram enviados e estão aguardando a análise da nossa equipe.
+                        </p>
+                    </div>
+
+                    <!-- Formulário de Upload -->
+                    <form class="mt-8 space-y-6">
+                        <div>
+                            <label for="document-upload" class="block text-sm font-semibold text-gray-800">
+                                Contrato Social ou Cartão CNPJ (PDF)
+                            </label>
+                            <p class="text-sm text-gray-500 mb-3">
+                                Anexe o documento que comprova a existência e regularidade da sua empresa.
+                            </p>
+                            <input type="file" id="document-upload" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer
+                                file:mr-4 file:py-2.5 file:px-5 file:rounded-l-lg file:border-0
+                                file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+
+                        <div class="text-right pt-4">
+                            <button type="submit" class="bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-blue-700 shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Enviar para Análise
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
