@@ -85,8 +85,12 @@ USE_TZ = True
 # Ficheiros Estáticos (CSS, JS, Imagens)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'), # Diz ao Django para procurar na pasta 'static'
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+# Arquivos de Mídia (Uploads de usuários - currículos, logos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
