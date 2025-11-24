@@ -70,7 +70,7 @@ def dashboard_candidato(request):
         'matches': matches,
         'vagas_recentes': vagas_recentes,
     }
-    return render(request, 'dashboard_candidato.html', context)
+    return render(request, 'candidate/dashboard_candidato.html', context)
 
 @login_required(login_url='login')
 def perfil_candidato(request):
@@ -81,7 +81,7 @@ def perfil_candidato(request):
         messages.error(request, 'Perfil não encontrado.')
         return redirect('dashboard_candidato')
     
-    return render(request, 'perfil_candidato.html', {'candidato': candidato})
+    return render(request, 'candidate/perfil_candidato.html', {'candidato': candidato})
 
 
 @login_required(login_url='login')
@@ -112,11 +112,11 @@ def editar_perfil_candidato(request):
         'form': form,
         'candidato': candidato,
     }
-    return render(request, 'editar_perfil_candidato.html', context)
+    return render(request, 'candidate/editar_perfil_candidato.html', context)
 
 def analise(request):
     """Página de análise de perfil do candidato."""
-    return render(request, 'analise.html')
+    return render(request, 'candidate/analise.html')
 
 
 # ----- 📬 Mensagens e Chat -----
@@ -137,7 +137,7 @@ def caixa_mensagens(request):
         'mensagens_enviadas': mensagens_enviadas[:20],
         'nao_lidas': mensagens_recebidas.filter(lida=False).count(),
     }
-    return render(request, 'mensagens.html', context)
+    return render(request, 'candidate/mensagens.html', context)
 
 @login_required(login_url='login')
 def chat_ia(request):
@@ -145,9 +145,9 @@ def chat_ia(request):
     try:
         candidato = request.user.candidato
         context = {'candidato': candidato}
-        return render(request, 'chat_ia.html', context)
+        return render(request, 'candidate/chat_ia.html', context)
     except:
-        return render(request, 'chat_ia.html')
+        return render(request, 'candidate/chat_ia.html')
 
 
 # ----- 💼 Vagas -----
@@ -177,7 +177,7 @@ def explorar_vagas(request):
             'nivel': nivel,
         }
     }
-    return render(request, 'explorar_vagas.html', context)
+    return render(request, 'candidate/explorar_vagas.html', context)
 
 @login_required(login_url='login')
 def candidaturas_vagas(request):
@@ -193,7 +193,7 @@ def candidaturas_vagas(request):
             'matches': matches,
             'total': matches.count(),
         }
-        return render(request, 'candidaturas_vagas.html', context)
+        return render(request, 'candidate/candidaturas_vagas.html', context)
     except:
         messages.error(request, 'Perfil de candidato não encontrado.')
         return redirect('login')
@@ -216,9 +216,9 @@ def detalhe_vaga(request, id):
             'match': match,
             'compatibilidade': match.score if match else 0,
         }
-        return render(request, 'detalhe_vaga.html', context)
+        return render(request, 'candidate/detalhe_vaga.html', context)
     except:
-        return render(request, 'detalhe_vaga.html', {'vaga': vaga})
+        return render(request, 'candidate/detalhe_vaga.html', {'vaga': vaga})
 
 
 # ----- 🎓 Cursos -----
@@ -239,10 +239,10 @@ def cursos(request):
             'cursos_em_andamento': cursos_em_andamento,
             'candidato': candidato,
         }
-        return render(request, 'cursos.html', context)
+        return render(request, 'candidate/cursos.html', context)
     except:
         cursos_disponiveis = Curso.objects.all().order_by('-criado_em')
-        return render(request, 'cursos.html', {'cursos': cursos_disponiveis})
+        return render(request, 'candidate/cursos.html', {'cursos': cursos_disponiveis})
 
 @login_required(login_url='login')
 def progre_cursos(request):
@@ -263,7 +263,7 @@ def progre_cursos(request):
             'total_cursos': progressos.count(),
             'total_concluidos': concluidos.count(),
         }
-        return render(request, 'progre_cursos.html', context)
+        return render(request, 'candidate/progre_cursos.html', context)
     except:
         messages.error(request, 'Perfil de candidato não encontrado.')
         return redirect('login')
@@ -302,7 +302,7 @@ def dashboard_empresa(request):
         'total_candidatos': total_candidatos,
         'mensagens_nao_lidas': mensagens_nao_lidas,
     }
-    return render(request, 'dashboard_empresa.html', context)
+    return render(request, 'company/dashboard_empresa.html', context)
 
 
 @login_required(login_url='login')
@@ -323,7 +323,7 @@ def perfil_empresa(request):
         'vagas_ativas': vagas_ativas,
         'total_vagas': total_vagas,
     }
-    return render(request, 'perfil_empresa.html', context)
+    return render(request, 'company/perfil_empresa.html', context)
 
 
 @login_required(login_url='login')
@@ -354,7 +354,7 @@ def editar_perfil_empresa(request):
         'form': form,
         'empresa': empresa,
     }
-    return render(request, 'editar_perfil_empresa.html', context)
+    return render(request, 'company/editar_perfil_empresa.html', context)
 
 
 def cadastro_empresa(request):
@@ -371,24 +371,24 @@ def cadastro_empresa(request):
         
         if not all([nome, cnpj, email, password]):
             messages.error(request, 'Por favor, preencha todos os campos obrigatórios.')
-            return render(request, 'cadastro_empresa.html')
+            return render(request, 'auth/cadastro_empresa.html')
         
         if password != confirm_password:
             messages.error(request, 'As senhas não coincidem.')
-            return render(request, 'cadastro_empresa.html')
+            return render(request, 'auth/cadastro_empresa.html')
         
         if len(password) < 6:
             messages.error(request, 'A senha deve ter pelo menos 6 caracteres.')
-            return render(request, 'cadastro_empresa.html')
+            return render(request, 'auth/cadastro_empresa.html')
         
         try:
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'Este email já está cadastrado.')
-                return render(request, 'cadastro_empresa.html')
+                return render(request, 'auth/cadastro_empresa.html')
             
             if Empresa.objects.filter(cnpj=cnpj).exists():
                 messages.error(request, 'Este CNPJ já está cadastrado.')
-                return render(request, 'cadastro_empresa.html')
+                return render(request, 'auth/cadastro_empresa.html')
             
             username = 'empresa_' + email.split('@')[0] + str(User.objects.count() + 1)
             
@@ -452,7 +452,7 @@ def cadastrar_vaga(request):
     else:
         form = VagaForm(initial={'status': 'aberta'})
     
-    return render(request, 'cadastrar_vaga.html', {'empresa': empresa, 'form': form})
+    return render(request, 'company/cadastrar_vaga.html', {'empresa': empresa, 'form': form})
 
 
 @login_required(login_url='login')
@@ -485,7 +485,7 @@ def editar_vaga(request, id):
     else:
         form = VagaForm(instance=vaga)
     
-    return render(request, 'editar_vaga.html', {'empresa': empresa, 'form': form, 'vaga': vaga})
+    return render(request, 'company/editar_vaga.html', {'empresa': empresa, 'form': form, 'vaga': vaga})
 
 
 @login_required(login_url='login')
@@ -544,7 +544,7 @@ def dashboard_admin(request):
         'empresas_recentes': empresas_recentes,
         'vagas_recentes': vagas_recentes,
     }
-    return render(request, 'dashboard_admin.html', context)
+    return render(request, 'admin_panel/dashboard_admin.html', context)
 
 @login_required(login_url='login')
 def gerenciar_usuarios(request):
@@ -564,7 +564,7 @@ def gerenciar_usuarios(request):
         'total': candidatos.count(),
         'busca': busca,
     }
-    return render(request, 'gerenciar_usuarios.html', context)
+    return render(request, 'admin_panel/gerenciar_usuarios.html', context)
 
 @login_required(login_url='login')
 def gerenciar_empresas(request):
@@ -584,7 +584,7 @@ def gerenciar_empresas(request):
         'total': empresas.count(),
         'busca': busca,
     }
-    return render(request, 'gerenciar_empresas.html', context)
+    return render(request, 'admin_panel/gerenciar_empresas.html', context)
 
 @login_required(login_url='login')
 def gerenciar_vagas(request):
@@ -604,7 +604,7 @@ def gerenciar_vagas(request):
         'total': vagas.count(),
         'status_filtro': status_filtro,
     }
-    return render(request, 'gerenciar_vagas.html', context)
+    return render(request, 'admin_panel/gerenciar_vagas.html', context)
 
 
 @login_required(login_url='login')
@@ -625,7 +625,7 @@ def admin_deletar_candidato(request, id):
         messages.success(request, f'Candidato "{nome}" deletado com sucesso!')
         return redirect('gerenciar_usuarios')
     
-    return render(request, 'admin_confirmar_deletar_candidato.html', {'candidato': candidato})
+    return render(request, 'admin_panel/admin_confirmar_deletar_candidato.html', {'candidato': candidato})
 
 
 @login_required(login_url='login')
@@ -646,7 +646,7 @@ def admin_deletar_empresa(request, id):
         messages.success(request, f'Empresa "{nome}" deletada com sucesso!')
         return redirect('gerenciar_empresas')
     
-    return render(request, 'admin_confirmar_deletar_empresa.html', {'empresa': empresa})
+    return render(request, 'admin_panel/admin_confirmar_deletar_empresa.html', {'empresa': empresa})
 
 
 @login_required(login_url='login')
@@ -664,7 +664,7 @@ def admin_deletar_vaga(request, id):
         messages.success(request, f'Vaga "{titulo}" deletada com sucesso!')
         return redirect('gerenciar_vagas')
     
-    return render(request, 'admin_confirmar_deletar_vaga.html', {'vaga': vaga})
+    return render(request, 'admin_panel/admin_confirmar_deletar_vaga.html', {'vaga': vaga})
 
 
 @login_required(login_url='login')
@@ -692,23 +692,23 @@ def cancelar_candidatura(request, id):
 
 def painel_denuncias(request):
     """Painel de denúncias pendentes."""
-    return render(request, 'painel_denuncias.html') 
+    return render(request, 'admin_panel/painel_denuncias.html') 
 
 def painel_denuncias_resolvidas(request):
     """Painel de denúncias resolvidas."""
-    return render(request, 'painel_denuncias_resolvidas.html')  
+    return render(request, 'admin_panel/painel_denuncias_resolvidas.html')  
 
 def painel_denuncias_ignoradas(request):
     """Painel de denúncias ignoradas."""
-    return render(request, 'painel_denuncias_ignoradas.html')   
+    return render(request, 'admin_panel/painel_denuncias_ignoradas.html')   
 
 def relatorios(request):
     """Página de relatórios administrativos."""
-    return render(request, 'relatorios.html')
+    return render(request, 'admin_panel/relatorios.html')
 
 def config_admin(request):
     """Página de configurações administrativas."""
-    return render(request, 'config_admin.html')
+    return render(request, 'admin_panel/config_admin.html')
 
 # ===============================
 # 🔐 AUTENTICAÇÃO (LOGIN / LOGOUT)
@@ -725,7 +725,7 @@ def login_view(request):
         
         if not email or not password:
             messages.error(request, 'Por favor, preencha todos os campos.')
-            return render(request, 'login.html')
+            return render(request, 'auth/login.html')
         
         try:
             user = User.objects.get(email=email)
@@ -740,7 +740,7 @@ def login_view(request):
         except User.DoesNotExist:
             messages.error(request, 'Email não encontrado.')
     
-    return render(request, 'login.html')
+    return render(request, 'auth/login.html')
 
 def logout_view(request):
     """Efetua logout e redireciona para a landing page."""
@@ -766,20 +766,20 @@ def cadastro(request):
         
         if not all([nome, email, password]):
             messages.error(request, 'Por favor, preencha todos os campos obrigatórios.')
-            return render(request, 'cadastro.html')
+            return render(request, 'auth/cadastro.html')
         
         if password != confirm_password:
             messages.error(request, 'As senhas não coincidem.')
-            return render(request, 'cadastro.html')
+            return render(request, 'auth/cadastro.html')
         
         if len(password) < 6:
             messages.error(request, 'A senha deve ter pelo menos 6 caracteres.')
-            return render(request, 'cadastro.html')
+            return render(request, 'auth/cadastro.html')
         
         try:
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'Este email já está cadastrado.')
-                return render(request, 'cadastro.html')
+                return render(request, 'auth/cadastro.html')
             
             username = email.split('@')[0] + str(User.objects.count() + 1)
             
@@ -811,7 +811,7 @@ def cadastro(request):
         except Exception as e:
             messages.error(request, f'Erro inesperado: {str(e)}')
     
-    return render(request, 'cadastro.html')
+    return render(request, 'auth/cadastro.html')
 
 
 # ===============================
@@ -1261,7 +1261,7 @@ def listar_candidaturas_candidato(request):
         context = {
             'candidaturas': candidaturas,
         }
-        return render(request, 'candidaturas_vagas.html', context)
+        return render(request, 'candidate/candidaturas_vagas.html', context)
     except:
         messages.error(request, 'Perfil de candidato não encontrado.')
         return redirect('home')
